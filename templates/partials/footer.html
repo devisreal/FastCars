@@ -1,0 +1,153 @@
+<footer class="bg-nav" style="margin-top: 80px">
+  <div class="pt-5 container text-white">
+    <div class="row">
+      <div
+        class="col-lg-3 col-md-2 col-6 mx-auto text-center text-md-start mb-4 mb-md-0"
+      >
+        <h5 class="text-xl">Fast Cars</h5>
+        <p class="text-md text-mysecondary opacity-75">
+          Hire the best car at the best price
+        </p>
+      </div>
+
+      {% comment %} Quick Links {% endcomment %}
+      <div
+        class="col-md-2 ms-auto text-center font-semibold text-md-start mb-4 mb-md-0"
+      >
+        <h5 class="">Quick Links</h5>
+        <ul class="nav flex-column">
+          <li class="nav-item mb-2">
+            <a
+              href="{% url 'home' %}"
+              class="nav-link p-0 footer-link text-muted"
+              >Home</a
+            >
+          </li>
+          <li class="nav-item mb-2">
+            <a
+              href="{% url 'about' %}"
+              class="nav-link p-0 footer-link text-muted"
+              >About</a
+            >
+          </li>
+          <li class="nav-item mb-2">
+            <a
+              href="{% url 'vehicles' %}"
+              class="nav-link p-0 footer-link text-muted"
+              >Vehicles</a
+            >
+          </li>
+          <li class="nav-item mb-2">
+            <a
+              href="{% url 'services' %}"
+              class="nav-link p-0 footer-link text-muted"
+              >Services</a
+            >
+          </li>
+          <li class="nav-item mb-2">
+            <a
+              href="{% url 'contact' %}"
+              class="nav-link p-0 footer-link text-muted"
+              >Contact</a
+            >
+          </li>
+        </ul>
+      </div>
+
+      {% comment %} Accounts {% endcomment %}
+      <div
+        class="col-md-2 text-center text-md-start font-semibold mb-5 mb-md-0"
+      >
+        <h5 class="">Account</h5>
+
+        {% if request.user.is_authenticated %}
+        <ul class="nav flex-column">
+          <li class="nav-item mb-2">
+            <a
+              href="{% url 'register' %}"
+              class="nav-link p-0 text-muted footer-link"
+              >Sign Up</a
+            >
+          </li>
+        </ul>
+        {% endif %} {% if not request.user.is_authenticated %}
+        <ul class="nav flex-column">
+          <li class="nav-item mb-2">
+            <a
+              href="{% url 'login' %}"
+              class="nav-link p-0 text-muted footer-link"
+              >Sign In</a
+            >
+          </li>
+          <li class="nav-item mb-2">
+            <a
+              href="{% url 'register' %}"
+              class="nav-link p-0 text-muted footer-link"
+              >Sign Up</a
+            >
+          </li>
+        </ul>
+        {% endif %}
+      </div>
+
+      <div
+        class="col-md-5 col-lg-4 col-10 mx-auto ms-auto text-center text-md-start"
+      >
+        <form action="{% url 'footer' %}" method="POST">
+          {% csrf_token %}
+          <h5>Subscribe to our newsletter</h5>
+          <p class="text-md">
+            Monthly digest of whats new and exciting from us.
+          </p>
+          <div class="d-flex w-100 gap-2">
+            <label for="footeremail" class="visually-hidden"
+              >Email address</label
+            >
+            <input
+              id="footeremail"
+              name="email"
+              type="email"
+              class="form-control text-sm font-semibold bg-white"
+              placeholder="Email address"
+              required
+            />
+            <button class="btn btn-myprimary font-medium" type="submit">
+              Subscribe
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-between py-4 mt-3 border-top">
+      <p class="text-md">
+        &copy; <span id="copyright"></span> Fast Cars. All rights reserved.
+      </p>
+      <ul class="list-unstyled d-flex">
+        <li class="ms-3">
+          <a class="footer-link text-muted cursor-pointer">
+            <i class="bx bxl-twitter text-2xl"></i>
+          </a>
+        </li>
+        <li class="ms-3">
+          <a class="footer-link text-muted cursor-pointer">
+            <i class="bx bxl-instagram-alt text-2xl"></i>
+          </a>
+        </li>
+        <li class="ms-3">
+          <a class="footer-link text-muted cursor-pointer">
+            <i class="bx bxl-facebook-circle text-2xl"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+{% block scripts %}
+<script>
+  const currentYear = new Date().getFullYear();
+  const copyright = document.getElementById("copyright");
+  copyright.innerHTML = currentYear;
+</script>
+{% endblock scripts %}

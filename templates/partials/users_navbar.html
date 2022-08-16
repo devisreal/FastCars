@@ -1,0 +1,85 @@
+{% load static %}
+{% url 'users:dashboard' as dashboard %}
+{% url 'users:my_bookings' as my_bookings %}
+{% url 'users:my_testimonies' as my_testimonies %}
+
+
+<nav class="navbar navbar-expand-md navbar-light bg-white my-shadow sticky top-0 " style="z-index: 20;">
+   <div class="container">
+      <a class="navbar-brand font-jost text-xl font-medium" href="{% url 'users:dashboard' %}">
+         <i class='bx bxs-car text-myprimary'></i>
+         <span>
+            Fast Cars 
+         </span>
+         <small class="text-md text-myprimary font-semibold">user</small>
+      </a>
+      <button class="navbar-toggler btn border-0" type="button" data-bs-toggle="collapse"
+         data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false"
+         aria-label="Toggle navigation">
+         <i class="bx bi-justify-right text-3xl text-black nav-icon"></i>
+      </button>
+      <div class="collapse navbar-collapse text-center text-md-start" id="collapsibleNavId">
+         <ul class="navbar-nav ms-auto mt-0 font-semibold align-items-center text-md">
+
+            <li class="nav-item ">
+               <a class="nav-link font-bold text-secondary text-xl"
+                  href="{% url 'home' %}">
+                  <i class='bx bxs-home-alt-2'></i>
+               </a>
+            </li>
+
+            <li class="nav-item ">
+               <a class="nav-link {% if request.path == dashboard %} font-bold text-myprimary {% endif %}"
+                  href="{% url 'users:dashboard' %}">
+                  Dashboard
+               </a>
+            </li>
+
+            <li class="nav-item ">
+               <a class="nav-link {% if request.path == my_bookings %} font-bold text-myprimary {% endif %}"
+                  href="{% url 'users:my_bookings' %}">
+                  My Bookings
+               </a>
+            </li>
+
+            <li class="nav-item ">
+               <a class="nav-link {% if request.path == my_testimonies %} font-bold text-myprimary {% endif %}"
+                  href="{% url 'users:my_testimonies' %}">
+                  My Testimonials
+               </a>
+            </li>
+
+            <li class="nav-item dropdown m-0 list-unstyled w-fit mx-auto">
+               <button class="dropdown-toggle btn text-white pb-1" href="" id="navbarDarkDropdownMenuLink" role="button"
+                  data-bs-toggle="dropdown" aria-expanded="false">
+                  <img src=" {% if request.user.profile_image %} {{request.user.profile_image.url}} {% else %} {% static 'img/default-image.png' %} {% endif %} " alt="User Avatar" class="img-fluid rounded-full"
+                     style="width: 40px;height: 40px;object-fit: cover;">
+               </button>
+               <ul class="dropdown-menu dropdown-menu-light text-md mt-2 dropdown-menu-end"
+                  aria-labelledby="navbarDarkDropdownMenuLink">
+
+                  <li class="p-0 ">
+                     <a href="{% url 'users:change_password' %}"
+                        class="dropdown-item px-3 py-1 font-semibold d-flex align-items-center">
+                        <i class='bx bxs-lock-open text-xl'></i>
+                        &nbsp;
+                        Change Password
+                     </a>
+                  </li>
+                  <li>
+                     <hr class="dropdown-divider">
+                  </li>
+                  <li class="p-0 ">
+                     <a href="{% url 'users:logout' %}"
+                        class="dropdown-item px-3 py-0 text-danger font-semibold d-flex align-items-center">
+                        <i class="bi bi-box-arrow-in-right text-xl"></i>&nbsp;
+                        Logout
+                     </a>
+                  </li>
+               </ul>
+            </li>
+
+         </ul>
+      </div>
+   </div>
+</nav>

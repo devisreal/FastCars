@@ -1,0 +1,117 @@
+{% extends 'admin_panel_base.html' %}
+{% load static %}
+{% load humanize %}
+{% block stylesheets %}
+<style>
+   .user-image {
+      width: 70px !important;
+      height: 70px !important;
+   }
+</style>
+{% endblock stylesheets %}
+{% block title %}User Profile || Fast Cars {% endblock title %}
+{% block content %}
+
+
+<h5 class="text-center text-myprimary mt-5 text-myprimary">User Profile</h5>
+
+{% include 'partials/messages.html' %}
+
+<div class="container mt-4">
+   <div class="row gx-4">
+
+      <div class="col-md-10 col-lg-9 mx-auto">
+         <div class="mx-auto mt-4">
+
+            <div class="">
+               <div class="row gx-3">
+
+                  <div class=" col-11 mx-auto col-md">
+                     <div class="p-3 bg-white rounded-md my-shadow">
+                        <div class="user-image w-fit mx-auto mt-2">
+                           <img
+                              src="{% if user.profile_image %}  {{ user.profile_image.url }} {% else %} {% static 'img/default-image.png' %} {% endif %} "
+                              alt="User image" style="object-fit: cover;" class="img-fluid user-image rounded-full">
+                        </div>
+                     </div>
+                  </div>
+
+
+                  <div class=" col-11 mx-auto col-md-7 my-3 my-md-0">
+                     <div class="p-3 bg-white rounded-md my-shadow order-first">
+                        <!-- Username -->
+                        <p class="text-md my-2">
+                           <span class="font-jost font-medium text-base">Username:</span>
+                           {{user.username}}
+                        </p>
+
+                        <!-- Email -->
+                        <p class="text-md my-2">
+                           <span class="font-jost font-medium text-base">Email:</span>
+                           {{user.email}}
+                        </p>
+
+                        <!-- Firstname -->
+                        <p class="text-md my-2">
+                           <span class="font-jost font-medium text-base">Firstname:</span>
+                           {{user.first_name}}
+                        </p>
+
+                        <!-- Lastname -->
+                        <p class="text-md my-2">
+                           <span class="font-jost font-medium text-base">Lastname:</span>
+                           {{user.last_name}}
+                        </p>
+
+                        <!-- Phone no -->
+                        <p class="text-md my-2">
+                           <span class="font-jost font-medium text-base">Phone No:</span>
+                           {{user.phone_no}}
+                        </p>
+
+                        <!-- Date joined -->
+                        <p class="text-sm my-2 mb-3">
+                           <span class="font-jost font-medium text-base">Date joined:</span>
+                           {{user.date_joined | naturalday}}
+                        </p>
+
+                        <div class="w-fit ms-auto">
+                           <button class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                              data-bs-target="#deletUserModal">Delete User</button>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+
+         </div>
+      </div>
+
+   </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="deletUserModal" tabindex="-1" aria-labelledby="deleteUserModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-dialog-centered modal-sm">
+      <div class="modal-content ">
+
+         <div class="modal-header">
+            <h5 class="modal-title text-lg" id="exampleModalLabel">Delete User</h5>
+            <button type="button" class="btn-close btn btn-sm" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+
+         <div class="modal-body p-2">
+            <p class="text-sm font-semibold">
+               Are you sure you want to delete the user "{{user.username}}" ?
+            </p>
+            <div class="w-fit ms-auto">
+               <a href="{% url 'admin_panel:delete_user' user.slug %}" class="btn btn-danger btn-sm">I'm sure Delete</a>
+            </div>
+         </div>
+
+      </div>
+   </div>
+</div>
+
+{% endblock %}

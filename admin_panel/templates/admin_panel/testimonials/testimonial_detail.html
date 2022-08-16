@@ -1,0 +1,59 @@
+{% extends 'admin_panel_base.html' %}
+{% load static %}
+{% load humanize %}
+{% load crispy_forms_tags %}
+{% block stylesheets %}
+   <style>
+   .user-image {
+      width: 55px !important;
+      height: 55px !important;
+   }
+   </style>
+{% endblock stylesheets %}
+{% block title %}
+   Testimonial Details || Fast Cars
+{% endblock title %}
+{% block content %}
+   <h5 class="text-center text-myprimary mt-4 mb-2">Testimonial Details</h5>
+   {% include 'partials/messages.html' %}
+   <div class="container mt-4">
+      <div class="row gx-4">
+         <div class="col-md-11 col-lg-6 mx-auto">
+            <div class="mx-auto mt-4 bg-white px-5 p-3 rounded-md my-shadow">
+               <div class="user-image w-fit mx-auto">
+                  <img src="{{ testimonial.user.profile_image.url }}"
+                       alt="User image"
+                       class="img-fluid user-image rounded-full">
+               </div>
+               <div class="text-center mt-3">
+                  <h6 class="m-0 p-0 text-xl">{{ testimonial.user.first_name }} {{ testimonial.user.last_name }}</h6>
+                  <p class="m-0 p-0 text-xs text-gray-500 font-semibold mt-1">{{ testimonial.created_date | naturaltime }}</p>
+               </div>
+               <div class="px-md-2 mt-2">
+                  <p class="m-0 p-0 font-bold text-center">
+                     <a href="{% url 'vehicle_details' testimonial.vehicle.slug %}"
+                        class="text-decoration-none text-myprimary font-medium text-md">
+                        {{ testimonial.vehicle.vehicle_name | truncatechars:20 }}
+                     </a>
+                  </p>
+               </div>
+               <form method="POST" class="mt-3">
+                  {% csrf_token %}
+                  <div class="form-floating mb-4">
+                     {{ update_testimonial_form.description }}
+                     <label for="description" class="font-medium">Testimonial</label>
+                  </div>
+                  <div class="form-check d-flex align-items-center">
+                     {{ update_testimonial_form.is_active }}
+                     <label class="form-check-label font-mulish text-sm font-semibold ms-2"
+                            for="flexCheckDefault">Is Active</label>
+                  </div>
+                  <div class="w-fit ms-auto mt-2">
+                     <button type="submit" class="btn btn-success btn-sm ">Update</button>
+                  </div>
+               </form>
+            </div>
+         </div>
+      </div>
+   </div>
+{% endblock %}

@@ -1,0 +1,158 @@
+{% load static %}
+{% url 'admin_panel:dashboard' as dashboard %}
+{% url 'admin_panel:vehicles' as vehicles %}
+{% url 'admin_panel:brands' as brands %}
+{% url 'admin_panel:queries' as queries %}
+{% url 'admin_panel:query_detail' as query_detail %}
+{% url 'admin_panel:page_content' as page_content %}
+{% url 'admin_panel:subscribers' as subscribers %}
+{% url 'admin_panel:add_vehicle' as add_vehicle %}
+{% url 'admin_panel:users' as users %}
+{% url 'admin_panel:user_profile' as user_profile %}
+{% url 'admin_panel:bookings' as bookings %}
+{% url 'admin_panel:testimonials' as testimonials %}
+{% url 'admin_panel:testimonials' as testimonials %}
+{% url 'users:edit_profile' as edit_profile %}
+
+
+<nav class="navbar navbar-expand-md navbar-light bg-white my-shadow sticky top-0 "
+     style="z-index: 20;">
+   <div class="container">
+      <a class="navbar-brand font-jost text-xl font-medium"
+         href="{% url 'admin_panel:dashboard' %}">
+         <i class='bx bxs-car text-myprimary'></i>
+         <span>
+            Fast Cars 
+         </span>
+         <small class="text-md text-myprimary font-semibold">admin</small>
+      </a>
+      <button class="navbar-toggler btn border-0"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapsibleNavId"
+              aria-controls="collapsibleNavId"
+              aria-expanded="false"
+              aria-label="Toggle navigation">
+         <i class="bx bi-justify-right text-3xl text-black nav-icon"></i>
+      </button>
+      <div class="collapse navbar-collapse text-center text-md-start"
+           id="collapsibleNavId">
+         <ul class="navbar-nav ms-auto mt-0 font-semibold align-items-center text-md">
+            <li class="nav-item ">
+               <a class="nav-link font-bold text-secondary text-xl"
+                  href="{% url 'home' %}">
+                  <i class='bx bxs-home-alt-2'></i>
+               </a>
+            </li>
+            <li class="nav-item ">
+               <a class="nav-link {% if request.path == dashboard %} font-bold text-myprimary{% endif %}"
+                  href="{% url 'admin_panel:dashboard' %}">
+                  Dashboard
+               </a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link {% if request.path == brands %} font-bold text-myprimary{% endif %}"
+                  href="{% url 'admin_panel:brands' %}">
+                  Brands
+               </a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link {% if request.path == vehicles or request.path == add_vehicle %} font-bold text-myprimary{% endif %}"
+                  href="{% url 'admin_panel:vehicles' %}">
+                  Vehicles
+               </a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link {% if request.path == bookings %} font-bold text-myprimary{% endif %}"
+                  href="{% url 'admin_panel:bookings' %}">
+                  Bookings
+               </a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link {% if request.path == users or request.path == user_profile %} font-bold text-myprimary{% endif %}"
+                  href="{% url 'admin_panel:users' %}">
+                  Users
+               </a>
+            </li>
+            <li class="nav-item dropdown">
+               <a class="nav-link dropdown-toggle"
+                  href="#"
+                  id="navbarDropdown"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false">
+                  More
+               </a>
+               <ul class="dropdown-menu text-md border-0 my-shadow mt-3 "
+                   aria-labelledby="navbarDropdown">
+                  <li>
+                     <a class="dropdown-item {% if request.path == testimonials %} font-bold text-myprimary{% endif %}"
+                        href="{% url 'admin_panel:testimonials' %}">
+                        Testimonials
+                     </a>
+                  </li>
+                  <li>
+                     <a class="dropdown-item {% if request.path == queries or request.path == query_detail %} font-bold text-myprimary{% endif %}"
+                        href="{% url 'admin_panel:queries' %}">
+                        Queries
+                     </a>
+                  </li>
+                  <li>
+                     <a class="dropdown-item {% if request.path == page_content %} font-bold text-myprimary{% endif %}"
+                        href="{% url 'admin_panel:page_content' %}">
+                        Page Content
+                     </a>
+                  </li>
+                  <li>
+                     <a class="dropdown-item {% if request.path == subscribers %} font-bold text-myprimary{% endif %}"
+                        href="{% url 'admin_panel:subscribers' %}">
+                        Subscribers
+                     </a>
+                  </li>
+               </ul>
+            </li>
+            <li class="nav-item dropdown m-0 list-unstyled w-fit mx-auto">
+               <button class="dropdown-toggle btn text-white pb-1"
+                       href=""
+                       id="navbarDarkDropdownMenuLink"
+                       role="button"
+                       data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                  <img
+                     src=" {% if request.user.profile_image %} {{request.user.profile_image.url}} {% else %} {% static 'img/default-image.png' %} {% endif %} "
+                     alt="User Avatar" class="img-fluid rounded-full" style="width: 40px;height: 40px;object-fit: cover;">
+               </button>
+               <ul class="dropdown-menu dropdown-menu-light text-md mt-2 dropdown-menu-end dropdown-menu-lg-start"
+                   aria-labelledby="navbarDarkDropdownMenuLink">
+                  <li class="p-0 py-1 ">
+                     <a href="{% url 'users:edit_profile' %}"
+                        class="dropdown-item px-3 py-0 font-semibold d-flex align-items-center">
+                        <i class='bx bxs-edit text-myprimary text-xl'></i>
+                        &nbsp;
+                        Edit Profile
+                     </a>
+                  </li>
+                  <li class="p-0 py-1 ">
+                     <a href="{% url 'users:change_password' %}"
+                        class="dropdown-item px-3 py-0 font-semibold d-flex align-items-center">
+                        <i class='bx bxs-lock-open text-myprimary text-xl'></i>
+                        &nbsp;
+                        Change Password
+                     </a>
+                  </li>
+                  <li>
+                     <hr class="dropdown-divider">
+                  </li>
+                  <li class="p-0 ">
+                     <a href="{% url 'logout' %}"
+                        class="dropdown-item px-3 py-0 text-danger font-semibold d-flex align-items-center">
+                        <i class="bi bi-box-arrow-in-right text-xl"></i>&nbsp;
+                        Logout
+                     </a>
+                  </li>
+               </ul>
+            </li>
+         </ul>
+      </div>
+   </div>
+</nav>

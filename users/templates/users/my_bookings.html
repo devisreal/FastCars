@@ -1,0 +1,78 @@
+{% extends 'users_base.html' %}
+{% load static %}
+{% load humanize %}
+{% block stylesheets %}
+   <style>
+   .user-image {
+      width: 55px !important;
+      height: 55px !important;
+   }
+   </style>
+{% endblock stylesheets %}
+{% block title %}
+   My Bookings || Fast Cars
+{% endblock title %}
+{% block content %}
+   <h5 class="text-center text-myprimary mt-4 mb-2">My Bookings</h5>
+   {% include 'partials/messages.html' %}
+   <div class="container px-sm-4 px-2 mt-5">
+      <div class="row row-cols-1 row-cols-md-2 g-2 g-lg-3 gy-lg-4 col-md-9 col-sm-11 col-12 mx-auto">
+         {% if my_bookings %}
+            {% for booking in my_bookings %}
+               <div class="col">
+                  <div class="bg-white p-3 rounded-md my-shadow">
+                     <div class="d-flex align-items-center justify-content-between px-md-2">
+                        <div class="text">
+                           <p class="m-0 p-0 text-xs text-gray-500 font-semibold">Booking made {{ booking.booking_date | naturaltime }}</p>
+                        </div>
+                     </div>
+                     <div class="px-md-2 mt-3">
+                        <p class="m-0 p-0 font-semibold">
+                           Vehicle:
+                           <a href="{% url 'vehicle_details' booking.vehicle.slug %}"
+                              class="text-decoration-none text-myprimary font-medium text-md">
+                              {{ booking.vehicle.vehicle_name | truncatechars:30 }}
+                           </a>
+                        </p>
+                        <p class="m-0 py-1 font-semibold text-md">
+                           City:
+                           <span class="text-decoration-none font-medium text-sm">{{ booking.city | truncatechars:35 }}</span>
+                        </p>
+                        <p class="m-0 py-1 font-semibold text-md">
+                           State:
+                           <span class="text-decoration-none font-medium text-sm">{{ booking.state | truncatechars:35 }}</span>
+                        </p>
+                        <p class="m-0 py-1 font-semibold text-md">
+                           Pick Up Date:
+                           <span class="text-decoration-none font-medium text-sm">{{ booking.pick_up_date | naturalday }}</span>
+                        </p>
+                        <p class="m-0 py-1 font-semibold text-md">
+                           Drop Off Date:
+                           <span class="text-decoration-none font-medium text-sm">{{ booking.drop_off_date | naturalday }}</span>
+                        </p>
+                        {% if booking.is_completed %}
+                           <button class="btn mt-3 btn-sm btn-dark text-white rounded-pill cursor-normal">Booking Completed</button>
+                        {% else %}
+                           <p class="m-0 py-1 font-semibold text-md">
+                              Confirmed:
+                              <span class="text-decoration-none font-medium text-sm text-capitalize">{{ booking.is_active | yesno }}</span>
+                           </p>
+                        {% endif %}
+                     </div>
+                     {% comment %} <div class="w-fit ms-auto">
+               <a href="{% url 'admin_panel:booking_detail' booking.id %}" class="btn btn-sm ">
+                  <i class='bx bx-link-external font-medium text-lg text-primary'></i>
+               </a>
+                     </div> {% endcomment %}
+                  </div>
+               </div>
+            {% endfor %}
+         {% else %}
+            <div class="mx-auto text-center bg-white px-5 p-3 rounded-md my-shadow">
+               <i class='bx bxs-info-circle text-3xl mb-2 text-myprimary'></i>
+               <h5>You haven't made any bookings</h5>
+            </div>
+         {% endif %}
+      </div>
+   </div>
+{% endblock %}

@@ -1,0 +1,205 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block stylesheets %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}" />
+{% endblock stylesheets %}
+{% block title %}Home || Fast Cars {% endblock title %}
+{% block content %}
+
+
+<div class="cover-container d-flex mx-auto flex-column bg-dark text-center">
+  <section class="py-5 text-white" style="max-width: 42rem; margin: auto">
+    <h1 class="font-medium">Welcome to Fast Cars</h1>
+    <p class="text-lg text-mysecondary font-medium opacity-75">
+      Hire the best car at the best price
+    </p>
+  </section>
+
+  {% include 'partials/messages.html' %}
+  <div class="mt-4">
+    <a id="mouse" class="text-white cursor-pointer">
+      <i class="bx bx-chevrons-down text-3xl scroll-arrow"></i>
+    </a>
+  </div>
+</div>
+
+
+<!-- ====================================================== Feature Cards ====================================================== -->
+<div class="container px-4 mb-5" style="margin-top: 150px;">
+  <h2 class="text-capitalize text-center">Why choose fast cars ?</h2>
+  <div class="row gx-5 mt-5">
+
+    <!-- ====================================================== Feature Card 1 ====================================================== -->
+    <div class="col-md-4 col-sm-6 col-11 mx-auto my-3">
+      <div class="p-4 my-shadow rounded-md bg-gray-100 text-center">
+        <div class="w-fit mx-auto">
+          <img src="{% static 'img/icons/rating.png' %}" alt="Feauture Icon" class="pointer-events-none">
+        </div>
+        <h5 class="mt-4">Outstanding Customer Service</h6>
+          <p class="text-gray-500 font-medium">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quaerat odit
+            minus accusantium!</p>
+      </div>
+    </div>
+    <!-- ====================================================== Feature Card 1 ====================================================== -->
+
+    <!-- ====================================================== Feature Card 2 ====================================================== -->
+    <div class="col-md-4 col-sm-6 col-11 mx-auto my-3">
+      <div class="p-4 my-shadow rounded-md bg-gray-100 text-center">
+        <div class="w-fit mx-auto">
+          <img src="{% static 'img/icons/study.png' %}" alt="Feauture Icon" class="pointer-events-none">
+        </div>
+        <h5 class="mt-4">Easy to Learn and User Friendly</h6>
+          <p class="text-gray-500 font-medium">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quaerat odit
+            minus accusantium!</p>
+      </div>
+    </div>
+    <!-- ====================================================== Feature Card 2 ====================================================== -->
+
+    <!-- ====================================================== Feature Card 3 ====================================================== -->
+    <div class="col-md-4 col-sm-6 col-11 mx-auto my-3">
+      <div class="p-4 my-shadow rounded-md bg-gray-100 text-center">
+        <div class="w-fit mx-auto">
+          <img src="{% static 'img/icons/information.png' %}" alt="Feauture Icon" class="pointer-events-none">
+        </div>
+        <h5 class="mt-4">Intuitive information</h6>
+          <p class="text-gray-500 font-medium">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quaerat odit
+            minus accusantium!</p>
+      </div>
+    </div>
+    <!-- ====================================================== Feature Card 3 ====================================================== -->
+
+  </div>
+</div>
+<!-- ====================================================== Feature Cards ====================================================== -->
+
+
+<!-- ====================================================== Feature Section 1 ====================================================== -->
+<section class="row featurette container mx-auto mb-5" style="margin-top: 120px;">
+  <div class="col-md-6 order-md-2 d-grid ms-auto" style="align-content: center;">
+    <h2 class="featurette-heading ">Outstanding Customer Service</h2>
+    <p class="lead text-lg text-gray-500">
+      Our dedicated team of customer care professionals are extremely fast and
+      responsive to attend to your questions or issues and offer solutions and
+      suggestions when you need them. You can:
+    </p>
+  </div>
+  <div class="col-md-6 order-md-1">
+    <img class="rounded-lg img-fluid mx-auto" width="500" alt="Feature Section Image"
+      src="{% static 'img/home-feature-1.jpg' %}">
+  </div>
+</section>
+
+<hr class="featurette-divider container mx-auto">
+<!-- ====================================================== Feature Section 1 ====================================================== -->
+
+
+<!-- ====================================================== Feature Section 2 ====================================================== -->
+<section class="row featurette container mx-auto mb-5" style="margin-top: 100px;">
+  <div class="col-md-6 order-md-1 d-grid " style="align-content: center;">
+    <h2 class="featurette-heading ">Easy to Learn and User Friendly</h2>
+    <p class="lead text-lg text-gray-500">
+      You and your team will become comfortable with Fast Cars Services within days;
+      the intuitive user interface will make it easy for you to familiarize yourself
+      and understand how everything fits in.
+    </p>
+  </div>
+  <div class="col-md-6 order-md-2 me-auto">
+    <img class="rounded-lg img-fluid mx-auto" width="500" alt="Feature Section Image"
+      src="{% static 'img/home-feature-2.jpg' %}">
+  </div>
+</section>
+
+<hr class="featurette-divider container mx-auto">
+<!-- ====================================================== Feature Section 2 ====================================================== -->
+
+
+<!-- ====================================================== Testimonials ====================================================== -->
+<div class="bg-nav p-1 py-5 p-sm-5 text-center">
+  <h2 class="text-white">Testimonials</h2>
+  <p class="text-mysecondary opacity-75 p-0">What our clients say</p>
+  <div class="swiper mySwiper mt-3">
+    <div class="swiper-wrapper ">
+      {% for testimonial in active_testimonials %}
+      <div class="swiper-slide  bg-white rounded-md p-3 py-4 mt-4 mb-5 text-center grid align-content-center">
+        <div class="col-3 rounded-full mx-auto">          
+          <img src="{{testimonial.user.profile_image.url}}" alt="User Avatar" class="img-fluid rounded-full" style="width: 65px;height: 65px;object-fit: cover;">
+        </div>
+        <p class="text-gray-500 text-md mt-3">
+          <span class="text-xl text-myprimary">&ldquo;</span>
+          {{testimonial.description}}
+          <span class="text-xl text-myprimary">&rdquo;</span>
+        </p>
+        <h5 class="mt-3 mb-3">{{testimonial.user.first_name}} {{testimonial.user.last_name}}</h5>        
+      </div>
+      {% endfor %}
+    </div>
+    <div class="swiper-pagination text-myprimary"></div>
+    <div class="swiper-button-next text-myprimary">
+      <i class="bi bi-arrow-right-short text-3xl font-bold"></i>
+    </div>
+    <div class="swiper-button-prev text-myprimary">
+      <i class="bi bi-arrow-left-short text-3xl font-bold"></i>
+    </div>
+  </div>
+</div>
+<!-- ====================================================== Testimonials ====================================================== -->
+
+
+<br><br>
+
+<div class="px-5 px-md-4 py-4 my-5 text-center">
+  <h2 class="">Ready for the next step?</h2>
+  <div class="col-lg-5 mx-auto">
+    <p class="text-lg mb-4 text-gray-500 mt-3 mt-sm-0">
+      Browse through our list of cars and book your next car service appointment.
+    </p>
+    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+      <a href="{% url 'vehicles' %}" class="btn btn-myprimary font-mulish font-semibold px-4 gap-3">
+        Get Started Now
+      </a>
+    </div>
+  </div>
+</div>
+
+
+{% endblock content %}
+
+{% block scripts %}
+<script>
+  const down_arrow = document.getElementById("mouse");
+  down_arrow.addEventListener("click", function () {
+    down_arrow.scrollIntoView({ behavior: "smooth", inline: "center" });
+  });
+  var swiper = new Swiper(".mySwiper", {
+    slidesPerView: 1,
+    loop: true,
+    centeredSlides: true,
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+    spaceBetween: 10,
+    grabCursor: true,
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+      dynamicBullets: true,
+    },
+    breakpoints: {
+      576: {
+        slidesPerView: 1,
+        spaceBetween: 15,
+      },
+      768: {
+        slidesPerView: 1,
+        spaceBetween: 30,
+      },
+      1024: {
+        slidesPerView: 1,
+        spaceBetween: 30,
+      },
+    },
+  });
+
+</script>
+{% endblock scripts %}

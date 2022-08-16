@@ -1,0 +1,69 @@
+{% extends 'admin_panel_base.html' %}
+{% load static %}
+{% load humanize %}
+{% block stylesheets %}
+
+{% endblock stylesheets %}
+{% block title %}Queries || Fast Cars {% endblock title %}
+{% block content %}
+
+<h5 class="text-center text-myprimary mt-5">Queries</h5>
+
+{% include 'partials/messages.html' %}
+
+<div class="container-fluid mt-5">
+   <div class="row gx-4">
+      <div class="col-md-7 mx-auto">
+         <div class="bg-white mx-auto p-3 mt-4 rounded-md my-shadow">
+
+            {% if inquiries %}
+            <div class="table-responsive">
+               <table class="table table-borderless">
+                  <!-- Table Header -->
+                  <thead class="border-1 border-bottom border-top-0 border-start-0 border-end-0">
+                     <tr class="font-jost">
+                        <th scope="col">Name</th>
+                        <th scope="col" class="text-center">Email</th>
+                        <th scope="col" class="text-end">Date</th>
+                        <th scope="col" class="text-end">Actions</th>
+                     </tr>
+                  </thead>
+
+                  <!-- Table Body -->
+                  <tbody class="font-mulish text-md">
+
+                     {% for inquirier in inquiries %}
+                     <tr>
+                        <td>{{inquirier.name}}</td>
+                        <td class="text-center">{{inquirier.email}}</td>
+                        <td class="text-end">{{inquirier.inqury_date | naturalday }}</td>
+                        <td class="text-end">
+                           <a href="{% url 'admin_panel:query_detail' inquirier.id %}" class="text-decoration-none"
+                              data-bs-toggle="tooltip" data-bs-placement="top" title="View Query">
+                              <i class='bx bx-link-external text-xl text-secondary font-bold'></i>
+                           </a>
+                           <a href="{% url 'admin_panel:delete_query' inquirier.id %}" class="text-decoration-none"
+                              data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Query">
+                              <i class='bx bxs-trash-alt text-xl text-danger'></i>
+                           </a>
+                        </td>
+                     </tr>
+                     {% endfor %}
+
+                  </tbody>
+
+               </table>
+            </div>
+            {% else %}
+            <div class="w-fit mx-auto text-center">
+               <i class='bx bxs-info-circle text-3xl mb-2 text-myprimary'></i>
+               <h5>No Inquiry</h5>
+            </div>
+            {% endif %}
+
+         </div>
+      </div>
+   </div>
+</div>
+
+{% endblock %}

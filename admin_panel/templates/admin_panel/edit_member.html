@@ -1,0 +1,47 @@
+{% extends 'admin_panel_base.html' %}
+{% load static %}
+{% load humanize %}
+{% load crispy_forms_tags %}
+{% block stylesheets %}
+{% endblock stylesheets %}
+{% block title %}
+  Page Content || Fast Cars
+{% endblock title %}
+{% block content %}
+  <h5 class="text-center text-myprimary mt-5">Edit Member</h5>
+  {% include 'partials/messages.html' %}
+  <div class="container mt-4">
+    <div class="row gx-4">
+      <div class="col-md-7 col-11 mx-auto">
+        <div class="bg-white mx-auto p-3 mt-4 rounded-md my-shadow">
+          <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <!-- {{edit_member_form |crispy}} -->
+            <div class="form-floating mb-3">
+              {{ edit_member_form.name }}
+              <label for="" class="form-label text-black">Member's Name</label>
+            </div>
+            <div class="form-floating mb-2">
+              {{ edit_member_form.position }}
+              <label for="" class="form-label text-black">
+                Member's Position
+              </label
+              >
+            </div>
+            <div class="form-group mb-2">
+              <small class="text-xs text-gray-500">Member's Image</small>
+              {{ edit_member_form.image }}
+              <p class="pt-2 text-gray-500 text-sm">
+                Currently
+                <a href="{{ member.image.url }}">{{ member.name }}'s Image</a>
+              </p>
+            </div>
+            <div class="w-fit ms-auto mt-4">
+              <button type="submit" class="btn btn-success btn-sm font-medium">Save Changes</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

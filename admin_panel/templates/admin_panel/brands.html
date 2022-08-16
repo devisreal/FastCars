@@ -1,0 +1,118 @@
+{% extends 'admin_panel_base.html' %}
+{% load static %}
+{% load humanize %}
+{% block stylesheets %}
+{% endblock stylesheets %}
+{% block title %}
+   Brands || Fast Cars
+{% endblock title %}
+{% block content %}
+   <h5 class="text-center text-myprimary mt-5">Brands</h5>
+   {% include 'partials/messages.html' %}
+   <div class="container mt-4">
+      <div class="row gx-4">
+         <div class="col-md-7 mx-auto">
+            <div class="bg-white mx-auto p-3 mt-4 rounded-md my-shadow">
+               {% if brands %}
+                  <table class="table table-borderless">
+                     <!-- Table Header -->
+                     <thead class="border-1 border-bottom border-top-0 border-start-0 border-end-0">
+                        <tr class="font-jost">
+                           <th scope="col">Brand</th>
+                           <th scope="col" class="text-center">Created at (time)</th>
+                           <th scope="col" class="text-end">Actions</th>
+                        </tr>
+                     </thead>
+                     <!-- Table Body -->
+                     <tbody class="font-mulish text-md">
+                        {% for brand in brands %}
+                           <tr>
+                              <td>{{ brand.name }}</td>
+                              <td class="text-center">{{ brand.created_at | naturalday }}</td>
+                              <td class="text-end">
+                                 <a href=""
+                                    class="text-decoration-none"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#ediBrand{{ brand.id }}">
+                                    <i class='bx bxs-edit text-primary text-xl font-medium'></i>
+                                 </a>
+                                 <a class="text-decoration-none"
+                                    href="{% url 'admin_panel:delete_brand' brand.id %}"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    title="Delete Brand">
+                                    <i class='bx bxs-trash-alt text-xl text-danger'></i>
+                                 </a>
+                              </td>
+                           </tr>
+                           <!-- Edit Brand Modal -->
+                           <div class="modal fade"
+                                id="ediBrand{{ brand.id }}"
+                                tabindex="-1"
+                                aria-labelledby="exampleModalLabel"
+                                aria-hidden="true">
+                              <div class="modal-dialog modal-dialog-centered">
+                                 <div class="modal-content">
+                                    <div class="modal-header">
+                                       <h5 class="modal-title text-lg" id="exampleModalLabel">Edit Brand</h5>
+                                       <button type="button"
+                                               class="btn-close btn btn-sm"
+                                               data-bs-dismiss="modal"
+                                               aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                       <!-- Edit Brand Form -->
+                                       <form class="text-center"
+                                             action="{% url 'admin_panel:edit_brand' brand.id %}"
+                                             method="POST">
+                                          {% csrf_token %}
+                                          <div class="form-floating ">
+                                             <input type="text"
+                                                    class="form-control text-md font-semibold bg-white"
+                                                    placeholder=""
+                                                    name="name"
+                                                    id="brand_name"
+                                                    value="{{ brand.name }}">
+                                             <label for="brand_name">Brand</label>
+                                          </div>
+                                          <div class="w-fit ms-auto mt-4">
+                                             <button type="submit" class="btn btn-sm btn-success">Save changes</button>
+                                          </div>
+                                       </form>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        {% endfor %}
+                     </tbody>
+                  </table>
+               {% else %}
+                  <div class="w-fit mx-auto text-center">
+                     <i class='bx bxs-info-circle text-3xl mb-2 text-myprimary'></i>
+                     <h5>No Brands</h5>
+                  </div>
+               {% endif %}
+            </div>
+         </div>
+         <div class="col mx-auto">
+            <div class="bg-white mx-auto p-3 mt-4 rounded-md my-shadow">
+               <h5 class="">Create Brand</h5>
+               <form class="text-center mt-4" method="POST">
+                  {% csrf_token %}
+                  <div class="form-floating mb-3">
+                     <input type="text"
+                            class="form-control text-md font-semibold bg-gray-100"
+                            placeholder=""
+                            name="name"
+                            id="brand_name">
+                     <label for="brand_name">Brand</label>
+                  </div>
+                  <div class="w-fit ms-auto mb-1">
+                     <button class="btn btn-myprimary btn-sm font-medium" type="submit">Create</button>
+                  </div>
+               </form>
+            </div>
+         </div>
+      </div>
+   </div>
+{% endblock %}

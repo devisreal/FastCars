@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Contact Us || Fast Cars{% endblock title %}
+{% block content %}
+
+<section class="page-intro d-flex mx-auto flex-column bg-dark ">
+   <div class="py-5 container text-white px-4" style="margin: auto;">
+      <h1 class="font-medium">Contact Us</h1>
+      <p class="text-base text-white opacity-75 col-md-6">
+         We’re here to help you. If you need more information, please feel free to reach to us
+      </p>
+   </div>
+</section>
+
+<div class="mt-5">
+   {% include 'partials/messages.html' %}   
+</div>
+
+<div class="container px-4 mb-5" style="margin-top: 150px;">
+   <h2 class="text-capitalize text-center">Our Info</h2>
+   <div class="row gx-5 mt-4">
+
+      <!-- ====================================================== Feature Card 1 ====================================================== -->
+      <div class="col-md-4 col-sm-6 col-11 mx-auto my-3">
+         <div class="p-4 my-shadow rounded-md bg-white border-2 text-center" style="height: 4ovh !important;">
+            <i class="bi bi-pin-map-fill text-3xl text-myprimary"></i>
+            <p class="text-gray-500 mt-3">
+               {{contact_us_details.address}}
+            </p>
+
+         </div>
+      </div>
+      <!-- ====================================================== Feature Card 1 ====================================================== -->
+
+      <!-- ====================================================== Feature Card 2 ====================================================== -->
+      <div class="col-md-4 col-sm-6 col-11 mx-auto my-3">
+         <div class="p-4 my-shadow rounded-md bg-white border-2 text-center" style="height: 4ovh !important;">
+            <i class="bi bi-telephone-fill text-3xl text-myprimary"></i>
+            <p class="text-gray-500 mt-3">
+               {{contact_us_details.phone_no}}
+            </p>
+         </div>
+      </div>
+      <!-- ====================================================== Feature Card 2 ====================================================== -->
+
+      <!-- ====================================================== Feature Card 3 ====================================================== -->
+      <div class="col-md-4 col-sm-6 col-11 mx-auto my-3">
+         <div class="p-4 my-shadow rounded-md bg-white border-2 text-center" style="height: 4ovh !important;">
+            <i class="bi bi-envelope-paper-fill text-3xl text-myprimary"></i>
+            <p class="text-gray-500 mt-3">
+               <a href="mailto:" class="text-gray-500 text-decoration-none">
+                  {{contact_us_details.email}}
+               </a>
+            </p>
+         </div>
+      </div>
+      <!-- ====================================================== Feature Card 3 ====================================================== -->
+
+   </div>
+</div>
+
+
+
+<div class="container px-sm-4 px-2 mt-5 py-5">
+   <div class="row gx-4">
+
+      <div class="col-md-5">
+         <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d96684.338894464!2d-74.12331003750002!3d40.77553640000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c2585d836400ed%3A0xfd801c8780d3dec8!2sWelfare!5e0!3m2!1sen!2sng!4v1657808043394!5m2!1sen!2sng"
+            class="img-fluid w-100 font-jost" style="border:0;height: 480px;" allowfullscreen="" loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+         </iframe>
+      </div>      
+
+      <div class="col-md-7 my-4 my-md-0">
+         
+         <div class="py-4 px-2 px-sm-4 border border-1 bg-white my-shadow rounded">
+            <form class="text-center" method="POST">
+               {% csrf_token %}
+               <div class="form-floating mb-3">
+                  <input type="text" class="form-control font-semibold bg-gray-100" name="name" id="name" placeholder=""
+                     required>
+                  <label for="name" class="text-md text-black font-medium ">Your Name</label>
+               </div>
+               <div class="form-floating mb-3">
+                  <input type="email" class="form-control font-semibold bg-gray-100" name="email" id="email"
+                     placeholder="" required>
+                  <label for="email" class="text-md text-black font-medium">Your Email</label>
+               </div>
+               <div class="form-floating mb-3">
+                  <input type="text" class="form-control font-semibold bg-gray-100" name="subject" id="subject"
+                     placeholder="" required>
+                  <label for="subject" class="text-md text-black font-medium">Subject</label>
+               </div>
+               <div class="form-floating mb-4">
+                  <textarea class="form-control font-semibold bg-gray-100" placeholder="" name="message" id="message"
+                     style="height: 150px"></textarea>
+                  <label for="message" class="font-medium">Message</label>
+               </div>
+               <div class="w-fit ms-auto mb-1">
+                  <button class="btn btn-myprimary btn-sm font-medium" type="submit">Send Message</button>
+               </div>
+            </form>
+         </div>
+      </div>
+
+   </div>
+</div>
+
+{% endblock content %}

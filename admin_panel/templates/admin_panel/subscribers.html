@@ -1,0 +1,56 @@
+{% extends 'admin_panel_base.html' %}
+{% load static %}
+{% load humanize %}
+{% block stylesheets %}
+{% endblock stylesheets %}
+{% block title %}
+   Subscribers || Fast Cars
+{% endblock title %}
+{% block content %}
+   <h5 class="text-center text-myprimary mt-5">Subscribers</h5>
+   {% include 'partials/messages.html' %}
+   <div class="container-fluid mt-5">
+      <div class="row gx-4">
+         <div class="col-md-7 mx-auto">
+            <div class="bg-white mx-auto p-3 mt-4 rounded-md my-shadow">
+               {% if subscribers %}
+                  <div class="table-responsive">
+                     <table class="table table-borderless">
+                        <!-- Table Header -->
+                        <thead class="border-1 border-bottom border-top-0 border-start-0 border-end-0">
+                           <tr class="font-jost">
+                              <th scope="col">Email</th>
+                              <th scope="col" class="text-center">Subscribed (time)</th>
+                              <th scope="col" class="text-end">Actions</th>
+                           </tr>
+                        </thead>
+                        <!-- Table Body -->
+                        <tbody class="font-mulish text-md">
+                           {% for subscriber in subscribers %}
+                              <tr>
+                                 <td>{{ subscriber.email }}</td>
+                                 <td class="text-center">{{ subscriber.subscribed_at | naturaltime }}</td>
+                                 <td class="text-end">
+                                    <a href="{% url 'admin_panel:delete_subscriber' subscriber.id %}"
+                                       data-bs-toggle="tooltip"
+                                       data-bs-placement="top"
+                                       title="Delete Subscriber">
+                                       <i class='bx bxs-trash-alt text-xl text-danger'></i>
+                                    </a>
+                                 </td>
+                              </tr>
+                           {% endfor %}
+                        </tbody>
+                     </table>
+                  </div>
+               {% else %}
+                  <div class="w-fit mx-auto text-center">
+                     <i class='bx bxs-info-circle text-3xl mb-2 text-myprimary'></i>
+                     <h5>No Subscribers</h5>
+                  </div>
+               {% endif %}
+            </div>
+         </div>
+      </div>
+   </div>
+{% endblock %}

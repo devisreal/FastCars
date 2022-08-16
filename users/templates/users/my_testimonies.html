@@ -1,0 +1,56 @@
+{% extends 'users_base.html' %}
+{% load static %}
+{% load humanize %}
+{% block stylesheets %}
+{% endblock stylesheets %}
+{% block title %}
+   My Testimonials || Fast Cars
+{% endblock title %}
+{% block content %}
+   <h5 class="text-center text-myprimary mt-4 mb-2">Testimonials</h5>
+   {% include 'partials/messages.html' %}
+   <div class="container mt-4">
+      <div class="row gx-4">
+         <div class="col-md-11 col-lg-10 mx-auto">
+            <div class="bg- mx-auto p- mt-4 ">
+               <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 g-lg-3 ">
+                  {% if my_testimonials %}
+                     {% for testimonial in my_testimonials %}
+                        <div class="col">
+                           <div class="p-2 pb bg-white rounded-sm my-shadow">
+                              <div class="d-flex align-items-center justify-content-between px-md-2">
+                                 <div class="">
+                                    <p class="m-0 p-0 text-xs text-gray-500 font-semibold">Posted {{ testimonial.created_date | naturaltime }}</p>
+                                 </div>
+                              </div>
+                              <div class="px-md-2 mt-3">
+                                 <p class="m-0 p-0 font-bold">
+                                    Vehicle:
+                                    <a href="{% url 'vehicle_details' testimonial.vehicle.slug %}"
+                                       class="text-decoration-none text-myprimary font-medium text-md">
+                                       {{ testimonial.vehicle.vehicle_name | truncatechars:20 }}
+                                    </a>
+                                 </p>
+                              </div>
+                              <div class="px-md-2 mt-1">
+                                 <p class="text-md text-gray-500">{{ testimonial.description }}</p>
+                              </div>
+                              <p class="m-0 px-md-2 py-1 font-semibold text-md">
+                                 Active:
+                                 <span class="text-decoration-none font-medium text-sm text-capitalize">{{ testimonial.is_active | yesno }}</span>
+                              </p>
+                           </div>
+                        </div>
+                     {% endfor %}
+                  {% else %}
+                     <div class="w-fit mx-auto text-center bg-white px-5 p-3 rounded-md my-shadow">
+                        <i class='bx bxs-info-circle text-3xl mb-2 text-myprimary'></i>
+                        <h5>You haven't posted any testimonials</h5>
+                     </div>
+                  {% endif %}
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+{% endblock %}

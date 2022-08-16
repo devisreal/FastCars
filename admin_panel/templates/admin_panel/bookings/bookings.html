@@ -1,0 +1,121 @@
+{% extends 'admin_panel_base.html' %} 
+{% load static %} 
+{% load humanize %} 
+{% block stylesheets %}
+<style>
+  .user-image {
+    width: 55px !important;
+    height: 55px !important;
+  }
+</style>
+{% endblock stylesheets %} 
+{% block title %}Bookings || Fast Cars {% endblock title %} 
+{% block content %}
+
+<h5 class="text-center text-myprimary mt-5">Bookings</h5>
+
+{% include 'partials/messages.html' %}
+
+<div class="container px-2 px-sm-4 my-5">
+  <div
+    class="row row-cols-1 row-cols-md-2 g-2 g-lg-3 gy-4 col-lg-9 col-sm-11 col-12 mx-auto"
+  >
+    {% if bookings %} {% for booking in bookings %}
+    <div class="col">
+      <div class="bg-white p-3 rounded-md my-shadow">
+        <div class="d-flex align-items-center justify-content-between px-md-2">
+          <div class="user-image w-fit mt-2">
+            <img
+              src="{{booking.user.profile_image.url}}"
+              style="object-fit: cover"
+              alt="User image"
+              class="img-fluid user-image rounded-full"
+            />
+          </div>
+
+          <div class="text-end">
+            <h6 class="m-0 p-0 text-lg">
+              {{booking.user.first_name}} {{booking.user.last_name}}
+            </h6>
+            <p class="m-0 p-0 text-xs text-gray-500 font-semibold">
+              {{booking.booking_date | naturaltime }}
+            </p>
+          </div>
+        </div>
+
+        <div class="px-md-2 mt-4">
+          <p class="m-0 p-0 font-semibold">
+            Vehicle:
+            <a
+              href="{% url 'vehicle_details' booking.vehicle.slug %}"
+              class="text-decoration-none text-myprimary font-medium text-md"
+            >
+              {{booking.vehicle.vehicle_name | truncatechars:30}}
+            </a>
+          </p>
+
+          <p class="m-0 py-1 font-semibold text-md">
+            City:
+            <span class="text-decoration-none font-medium text-sm">
+              {{booking.city | truncatechars:35}}
+            </span>
+          </p>
+
+          <p class="m-0 py-1 font-semibold text-md">
+            State:
+            <span class="text-decoration-none font-medium text-sm">
+              {{booking.state | truncatechars:35}}
+            </span>
+          </p>
+
+          <p class="m-0 py-1 font-semibold text-md">
+            Pick Up Date:
+            <span class="text-decoration-none font-medium text-sm">
+              {{booking.pick_up_date | naturalday}}
+            </span>
+          </p>
+
+          <p class="m-0 pt-1 font-semibold text-md">
+            Drop Off Date:
+            <span class="text-decoration-none font-medium text-sm">
+              {{booking.drop_off_date | naturalday}}
+            </span>
+          </p>
+
+          {% if booking.is_active and not booking.vehicle_returned %}
+          <small class="text-gray-500 font-bold text-xs">Vehicle still with user</small>
+          {% endif %}
+          
+        </div>
+
+        <div class="d-flex mt-3 justify-content-between">
+          {% if booking.is_active %}
+          <a href="{% url 'admin_panel:cancel_booking' booking.id %}" class="btn btn-sm btn-myprimary text-white rounded-pill">
+            Cancel Booking
+          </a>
+          <a href="{% url 'admin_panel:returned_vehicle' booking.id %}" class="btn btn-sm btn-secondary text-white rounded-pill">
+            Returned Vehicle
+          </a>
+          {% elif booking.is_completed %}
+          <button class="btn btn-sm btn-dark text-white rounded-pill cursor-normal">
+            Booking Completed
+          </button>
+          {% else %}
+          <a href="{% url 'admin_panel:confirm_booking' booking.id %}" class="btn btn-sm btn-success text-white rounded-pill">
+            Confirm Booking
+          </a>                    
+          
+          {% endif %}                    
+        </div>
+      </div>
+    </div>
+    {% endfor %} {% else %}
+    <div class="mx-auto text-center bg-white px-5 p-3 rounded-md my-shadow">
+      <i class="bx bxs-info-circle text-3xl mb-2 text-myprimary"></i>
+      <h5>No Bookings</h5>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}

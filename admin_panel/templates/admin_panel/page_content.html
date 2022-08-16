@@ -1,0 +1,142 @@
+{% extends 'admin_panel_base.html' %}
+{% load static %}
+{% load humanize %}
+{% load crispy_forms_tags %}
+{% block stylesheets %}
+{% endblock stylesheets %}
+{% block title %}
+   Page Content || Fast Cars
+{% endblock title %}
+{% block content %}
+   <h5 class="text-center text-myprimary mt-4">Page Content</h5>
+   {% include 'partials/messages.html' %}
+   <div class="container my-5">
+      <div class="row gx-4">
+         <!-- About Us Page Content -->
+         <div class="col-md">
+            <div class="p-3 bg-white rounded-md my-shadow">
+               <div class="d-flex justify-content-between align-items-center">
+                  <h5 class="">About Us Team</h5>
+                  <a href="{% url 'about' %}"
+                     class="text-gray-500"
+                     data-bs-toggle="tooltip"
+                     data-bs-placement="top"
+                     title="Go to Page">
+                     <i class='bx bx-link-external text-xl'></i>
+                  </a>
+               </div>
+               <a href=""
+                  data-bs-toggle="modal"
+                  data-bs-target="#addMemberModal"
+                  class="btn btn-sm mx-auto bg-mysecondary-outline font-medium">
+                  Add Member
+               </a>
+               <div class="mt-4 ">
+                  <div class="row row-cols-1 col-10 col-sm-12 mx-auto row-cols-sm-2 row-cols-lg-2 g-3 g-lg-4">
+                     {% for team_member in team_members %}
+                        <div class="col">
+                           <div class="p-2 pt-3 rounded my-shadow-sm bg-light text-md text-center">
+                              <div class="w-fit mx-auto ">
+                                 <img src="{{ team_member.image.url }}"
+                                      alt="Team member Image"
+                                      class="img-fluid rounded-full team-image">
+                              </div>
+                              <h6 class="py-1 m-0">{{ team_member.name }}</h6>
+                              <p class="text-gray-500 text-sm font-semibold">{{ team_member.position }}</p>
+                              <div class="d-flex justify-content-center align-items-center">
+                                 <a class="text-decoration-none mx-1"
+                                    href="{% url 'admin_panel:edit_member' team_member.id %}"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    title="Edit Brand">
+                                    <i class='bx bxs-edit text-xl text-primary'></i>
+                                 </a>
+                                 <a class="text-decoration-none mx-1"
+                                    href="{% url 'admin_panel:delete_member' team_member.id %}"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    title="Delete Brand">
+                                    <i class='bx bxs-trash-alt text-xl text-danger'></i>
+                                 </a>
+                              </div>
+                           </div>
+                        </div>
+                     {% endfor %}
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!-- Contact Us Details -->
+         <div class="col my-4 my-md-0">
+            <div class="p-3 bg-white rounded-md my-shadow">
+               <div class="d-flex justify-content-between align-items-center">
+                  <h5 class="">Contact Us Details</h5>
+                  <a href="{% url 'contact' %}"
+                     class="text-gray-500"
+                     data-bs-toggle="tooltip"
+                     data-bs-placement="top"
+                     title="Go to Page">
+                     <i class='bx bx-link-external text-xl'></i>
+                  </a>
+               </div>
+               <form class="mt-4" method="POST">
+                  {% csrf_token %}
+                  <div class="form-floating mb-2">
+                     {{ contact_form.address }}
+                     <label for="" class="form-label text-black">Contact Us Address</label>
+                  </div>
+                  <div class="form-floating mb-2">
+                     {{ contact_form.email }}
+                     <label for="" class="form-label text-black">Contact Us Email</label>
+                  </div>
+                  <div class="form-floating ">
+                     {{ contact_form.phone_no }}
+                     <label for="" class="form-label text-black">Contact Us Phone No</label>
+                  </div>
+                  <div class="w-fit ms-auto mt-4">
+                     <button type="submit" class="btn btn-sm btn-success">Save changes</button>
+                  </div>
+               </form>
+            </div>
+         </div>
+      </div>
+   </div>
+   <!-- Add Member Modal -->
+   <div class="modal fade"
+        id="addMemberModal"
+        tabindex="-1"
+        aria-labelledby="addMember"
+        aria-hidden="true">
+      <div class="modal-dialog ">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title text-lg" id="addMember">Add Member</h5>
+               <button type="button"
+                       class="btn-close btn btn-sm"
+                       data-bs-dismiss="modal"
+                       aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+               <form method="POST" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <div class="form-floating mb-3">
+                     {{ add_member_form.name }}
+                     <label for="" class="form-label text-black">Member's Name</label>
+                  </div>
+                  <div class="form-floating mb-2">
+                     {{ add_member_form.position }}
+                     <label for="" class="form-label text-black">Member's Position</label>
+                  </div>
+                  <div class="form-group mb-2">
+                     <small class="text-xs text-gray-500">Member's Image</small>
+                     {{ add_member_form.image }}
+                  </div>
+                  <div class="w-fit ms-auto mt-4">
+                     <button type="submit" class="btn btn-myprimary btn-sm font-medium">Add Member</button>
+                  </div>
+               </form>
+            </div>
+         </div>
+      </div>
+   </div>
+{% endblock %}

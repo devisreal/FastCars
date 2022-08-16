@@ -1,0 +1,82 @@
+{% extends 'admin_panel_base.html' %}
+{% load static %}
+{% load humanize %}
+{% block stylesheets %}
+<style>
+   .user-image {
+      width: 55px !important;
+      height: 55px !important;
+   }
+
+   .user-link {
+      color: #444 !important;
+      transition: .2s;
+   }
+
+   .user-link:hover {
+      color: var(--primary-color) !important;
+      transition: .2s;
+   }
+</style>
+{% endblock stylesheets %}
+{% block title %}Users || Fast Cars {% endblock title %}
+{% block content %}
+
+
+<h5 class="text-center text-myprimary mt-5 text-myprimary">Registered Users</h5>
+
+{% include 'partials/messages.html' %}
+
+<div class="container mt-4">
+   <div class="row gx-4">
+
+      <div class="col-md-10 col-lg-9 mx-auto">
+         <div class="bg- mx-auto p- mt-4 ">
+
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 g-lg-3 ">
+
+               {% if users %}
+               {% for user in users %}
+                  {% if not user.is_staff %}
+                     <div class="col">
+                        <div class="p-2 pb-3 bg-white rounded-md my-shadow text-center">
+                           <div class="user-image w-fit mx-auto mt-2">
+                              <img
+                                 src="{% if user.profile_image %}  {{ user.profile_image.url }} {% else %} {% static 'img/default-image.png' %} {% endif %} "
+                                 alt="User image" class="img-fluid user-image rounded-full" style="object-fit: cover;">
+                           </div>
+                           <h5 class="mt-2 text-lg">
+                              <a href="{% url 'admin_panel:user_profile' user.slug %}"
+                                 class="text-decoration-none user-link">{{user.username}}</a>
+                           </h5>
+                           <p class="text-sm font-medium">{{user.email}}</p>
+                     
+                           <a href="{% url 'admin_panel:user_profile' user.slug %}"
+                              class="btn btn-sm mx-auto bg-mysecondary-outline t font-medium my-3 my-md-0">
+                              View Profile
+                           </a>
+                        </div>
+                     </div>
+                  {% endif %}
+               {% endfor %}
+
+               {% else %}
+               <div class="w-fit mx-auto text-center">
+                  <i class='bx bxs-info-circle text-3xl mb-2 text-myprimary'></i>
+                  <h5>No Users</h5>
+               </div>
+               {% endif %}
+
+            </div>
+
+         </div>
+      </div>
+
+   </div>
+</div>
+
+{% endblock %}
+<div class="w-fit mx-auto text-center">
+   <i class='bx bxs-info-circle text-3xl mb-2 text-myprimary'></i>
+   <h5>No Users</h5>
+</div>

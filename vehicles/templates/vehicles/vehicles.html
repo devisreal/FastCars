@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block stylesheets %}
+<style>
+   .vehicle-year {
+      border: .13rem solid rgba(153, 0, 17, 0.7);
+      border-style: dashed;
+      padding-top: 2px;
+      padding-bottom: 2px;
+   }
+   .vehicle-link{
+      transition: .3s;
+   }
+   .vehicle-link:hover{
+      color: #990011 !important;
+      transition: .3s;
+   }
+</style>
+{% endblock stylesheets %}
+{% load humanize %}
+{% block title %}
+Vehicles || Fast Cars
+{% endblock title %}
+{% block content %}
+
+
+<section class="page-intro d-flex mx-auto flex-column bg-dark ">
+   <div class="py-5 container text-white px-4" style="margin: auto;">
+      <h1 class="font-medium">Our Vehicles</h1>
+      <p class="text-base text-white opacity-75 col-md-6">Browse through our gallery of vehicles.</p>
+   </div>
+</section>
+
+
+<div class="mt-4">{% include 'partials/messages.html' %}</div>
+
+
+<div class="container px-4 mb-5" style="margin-top: 150px;">
+
+   <div class="my-5 d-md-flex justify-content-between align-items-center">
+
+      <div class="">
+         <h2 class="">
+            <span class="text-myprimary">Featured</span> Vehicles
+         </h2>
+         <p class="text-sm">
+            <span class="text-myprimary font-semibold">Note:</span> You need to be logged in to book vehicles.
+         </p>
+      </div>
+
+      <form class="form-floating mt-4 mt-sm-0" method="POST" action="{% url 'search' %}">
+         {% csrf_token %}
+         <input type="search" class="form-control" name="search" id="searchInput" placeholder="">
+         <label for="searchInput" class="d-flex align-items-center">
+            <i class='bx bx-search bx-rotate-90 me-2'></i> Search vehicles
+         </label>
+      </form>
+   </div>
+
+   <div class="row gx-4 gy-md-5 gy-4">
+      {% if paginated_vehicles %}
+      {% for vehicle in paginated_vehicles %}
+      <div class="col-lg-4 col-md-6 col-12 col-sm-10 mx-auto mx-md-0">
+         <div class="border my-shadow pb-2 car-card rounded-2xl">
+            <div class="p-2">
+               <img src="{{vehicle.car_photo.url}}" alt="Car Image"
+                  class="img-fluid pointer-events-none rounded-2xl mb-4"
+                  style="height: 35vh !important; width: 100% !important; object-fit: cover;">
+               <div class="px-2">
+                  <div class="d-flex justify-content-between align-items-center">
+                     <h5 class="">
+                        <a href="{% url 'vehicle_details' vehicle.slug %}" class="text-decoration-none text-dark vehicle-link">{{vehicle.vehicle_name |truncatechars:20}}</a>
+                     </h5>
+                     <a class="text-gray-500 font-medium text-md text-decoration-none vehicle-year px-3 rounded-pill">{{vehicle.year}}</a>
+                  </div>
+      
+                  <div class="mt-3">
+                     <div class="row row-cols-2 g-2">
+                        <div class="col">
+                           <div class="p-1 d-flex align-items-center">
+                              <i class="material-symbols-outlined text-xl me-2 text-myprimary">
+                                 blur_circular
+                              </i>
+                              <p class="m-0 p-0 text-sm text-gray-500 font-semibold">{{vehicle.brand}}</p>
+                           </div>
+                        </div>
+                        <div class="col">
+                           <div class="p-1 d-flex align-items-center">
+                              <i class="material-symbols-outlined text-xl me-2 text-myprimary">
+                                 chair_alt
+                              </i>
+                              <p class="m-0 p-0 text-sm text-gray-500 font-semibold">{{vehicle.seats}} Seats</p>
+                           </div>
+                        </div>
+                        <div class="col">
+                           <div class="p-1 d-flex align-items-center">
+                              <i class="material-symbols-outlined text-xl me-2 text-myprimary">
+                                 local_gas_station
+                              </i>
+                              <p class="m-0 p-0 text-sm text-gray-500 font-semibold">{{vehicle.fuel_type}}</p>
+                           </div>
+                        </div>
+                        <div class="col">
+                           <div class="p-1 d-flex align-items-center">
+                              <i class='bx bx-chip text-xl me-2 text-myprimary'></i>
+                              <p class="m-0 p-0 text-sm text-gray-500 font-semibold">{{vehicle.transmission}}</p>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+      
+                  <hr class="bg-opacity-75 mx-2" style="height: 1.5px;">
+      
+                  <div class="d-flex align-items-center justify-content-between">
+                     <p class="text-gray-500 font-medium text-md m-0 p-0">
+                        <span class="text-2xl text-dark">${{vehicle.price | intcomma}}</span> / day
+                     </p>
+                     <a href="{% url 'vehicle_details' vehicle.slug %}" class="btn btn-sm bg-mysecondary-outline font-medium my-3 my-md-0 rounded-xl">
+                        Rent Now
+                     </a>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      {% endfor %}
+      {% else %}
+      <div class="col-12 text-center">
+         <h3 class="text-gray-500">No vehicles found</h3>
+      </div>
+      {% endif %}
+   </div>
+</div>
+
+
+{% if paginated_vehicles %}
+<nav aria-label="Page navigation example " class="mb-4" style="margin-top: 60px;">
+   <ul class="pagination justify-content-center font-semibold">
+      {% if paginated_vehicles.has_previous %}
+      <li class="page-item">
+         <a class="page-link" href="?page={{ paginated_vehicles.previous_page_number }}">&laquo;</a>
+      </li>
+      {% else %}
+      <li class="page-item disabled" style="cursor: not-allowed !important;" title="No previous">
+         <a class="page-link " href="" aria-label="Previous"><span class="opacity-75 ">&laquo;</span></a>
+      </li>
+      {% endif %}
+      {% for i in paginated_vehicles.paginator.page_range %}
+      {% if paginated_vehicles.number == i %}
+      <li class="page-item active" aria-current="page">
+         <a class="page-link" href="">{{ i }}</a>
+      </li>
+      {% else %}
+      <li class="page-item">
+         <a href="?page={{ i }}" class="page-link">{{ i }}</a>
+      </li>
+      {% endif %}
+      {% endfor %}
+      {% if paginated_vehicles.has_next %}
+      <li class="page-item">
+         <a href="?page={{ paginated_vehicles.next_page_number }}" class="page-link">&raquo;</a>
+      </li>
+      {% else %}
+      <li class="page-item disabled" style="cursor: not-allowed !important;" title="No next">
+         <span class="page-link opacity-75 ">&raquo;</span>
+      </li>
+      {% endif %}
+   </ul>
+</nav>
+{% endif %}
+{% endblock %}

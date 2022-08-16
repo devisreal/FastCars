@@ -1,0 +1,29 @@
+.car-info {
+  border-style: dashed !important;
+  border-left: none !important;
+  border-right: none !important;
+}
+
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide {
+  text-align: center !important;
+  font-size: 18px;
+  background: #f2f2f2 !important;
+}
+
+.user-avatar {
+  width: 60px;
+  height: 60px;
+}
+
+@media screen and (min-width: 768px) {
+  .details-image {
+    height: 40vh;
+    width: 100%;
+    object-fit: cover;
+  }
+}

@@ -1,0 +1,160 @@
+{% extends 'admin_panel_base.html' %}
+{% load static %}
+{% load humanize %}
+{% block stylesheets %}
+<style>
+   .car-card {
+      transition: 0.3s;
+      height: 50vh;
+      background-size: cover !important;
+      background-position: center !important;
+
+   }
+
+   .car-card:hover {
+      box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 5px, rgba(0, 0, 0, 0.12) 0px 3px 3px;
+      transition: 0.3s;
+      transform: translateY(-7px);
+   }
+</style>
+{% endblock stylesheets %}
+{% block title %}Vehicles || Fast Cars {% endblock title %}
+{% block content %}
+
+<h5 class="text-center text-myprimary mt-5">Vehicles</h5>
+
+{% include 'partials/messages.html' %}
+
+<div class="container-fluid px-sm-5 px-3 my-3">
+   <div class="row">
+
+      <div class="col-12 mx-auto">
+         <div class=" mx-auto p-sm-2 p-0 mt-4 ">
+            <div class="px-sm-4 px-2">
+               <div class="row gx-4">
+
+                  <div class="col-md-9">
+
+                     {% if paginated_vehicles %}
+                     <div class="row row-cols-1 row-cols-md-2 g-2 gy-4 g-lg-4 ">
+
+                        {% for vehicle in paginated_vehicles %}
+                        <a href="{% url 'vehicle_details' vehicle.slug %}" class="text-decoration-none">
+                           <div class="col">
+                              <div class="p-3 border car-card rounded-md text-white d-grid align-content-end" style="background: linear-gradient(62deg,rgba(0, 0, 0, 0.6) 50%, rgba(0, 0, 0, 0.6) 50%), url('{{vehicle.car_photo.url}}');"
+                                 >
+
+                                 <div class="d-flex align-items-center justify-content-between">
+                                    <h5 class="p-0 m-0 ">{{vehicle.vehicle_name|truncatechars_html:17}}</h5>
+                                    <p class="p-0 m-0 text-xs">
+                                       <span class="font-bold text-lg">$ {{vehicle.price | intcomma }} </span>
+                                       Per Day
+                                    </p>
+                                 </div>
+
+                                 <div class="d-flex align-items-center mt-2 ">
+
+                                    <div class="p-0 m-0 text-md  text-center d-grid">
+                                       <i class="material-symbols-outlined text-xl">
+                                          chair_alt
+                                       </i>
+                                       <small class="mt-1 text-xs">{{vehicle.seats}}</small>
+                                    </div>
+
+                                    <div class="p-0 m-0 text-md mx-2 text-center d-grid">
+                                       <i class="material-symbols-outlined text-xl">
+                                          local_gas_station
+                                       </i>
+                                       <small class="mt-1 text-xs">{{vehicle.fuel_type}}</small>
+                                    </div>
+
+                                    <div class="p-0 m-0 text-md mx-2 text-center d-grid">                                       
+                                       <i class='bx bx-chip text-xl'></i>
+                                       <small class="mt-1 text-xs">{{vehicle.transmission}}</small>
+                                    </div>
+
+                                 </div>
+
+                              </div>
+                           </div>
+                        </a>
+                        {% endfor %}
+
+                     </div>
+                     {% else %}
+                     <div class="col-6 mx-auto text-center bg-white px-5 p-3 rounded-md my-shadow">
+                        <i class='bx bxs-info-circle text-3xl mb-2 text-myprimary'></i>
+                        <h5>No Vehicles</h5>
+                     </div>
+                     {% endif %}
+
+                  </div>
+
+                  <div class="col my-5 my-md-0">
+                     <div class="p-3 rounded-md bg-white my-shadow">
+                        <div class="mx-auto w-fit">
+                           <a href="{% url 'admin_panel:add_vehicle' %}"
+                              class="btn btn-sm bg-mysecondary-outline font-medium my-3 my-md-0 ">
+                              Add Vehicle
+                           </a>
+                        </div>
+
+                     </div>
+                  </div>
+
+
+               </div>
+            </div>
+         </div>
+      </div>
+
+
+   </div>
+</div>
+
+
+{% if paginated_vehicles %}
+<nav aria-label="Page navigation example " style="margin-top: 60px;">
+   <ul class="pagination justify-content-center font-semibold">
+
+      {% if paginated_vehicles.has_previous %}
+      <li class="page-item">
+         <a class="page-link" href="?page={{ paginated_vehicles.previous_page_number }}">
+            &laquo;
+         </a>
+      </li>
+      {% else %}
+      <li class="page-item disabled" style="cursor: not-allowed !important;" title="No previous">
+         <a class="page-link " href="" aria-label="Previous"><span class="opacity-75 ">&laquo;</span></a>
+      </li>
+      {% endif %}
+
+
+      {% for i in paginated_vehicles.paginator.page_range %}
+      {% if paginated_vehicles.number == i %}
+      <li class="page-item active" aria-current="page">
+         <a class="page-link" href="">{{ i }}</a>
+      </li>
+      {% else %}
+      <li class="page-item">
+         <a href="?page={{ i }}" class="page-link">{{ i }}</a>
+      </li>
+      {% endif %}
+      {% endfor %}
+
+      {% if paginated_vehicles.has_next %}
+      <li class="page-item">
+         <a href="?page={{ paginated_vehicles.next_page_number }}" class="page-link">
+            &raquo;
+         </a>
+      </li>
+      {% else %}
+      <li class="page-item disabled" style="cursor: not-allowed !important;" title="No next"><span
+            class="page-link opacity-75 ">&raquo;</span></li>
+      {% endif %}
+
+   </ul>
+</nav>
+{% endif %}
+
+{% endblock %}

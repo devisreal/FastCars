@@ -1,0 +1,110 @@
+{% extends 'base.html' %} {% load static %} {% block title %}Register New
+Account || Fast Cars{% endblock title %} {% block content %}
+
+<div
+  class="d-grid login-bg p-sm-4 p-2 mt-5 mt-sm-0"
+  style="height: 100vh; align-content: center"
+>
+  <form
+    class="text-center bg-light pt-5 pb-4 p-sm-3 p-2 col-lg-9 mx-auto rounded-3 mt-md-5"
+    method="POST"
+    action="{% url 'register' %}"
+  >
+    <div class="mb-2">{% include 'partials/messages.html' %}</div>
+    {% csrf_token %}
+
+    <div class="container px-sm-4 px-2">
+      <div class="row gx-4">
+        <!-- First Side -->
+        <div class="col-md-6">
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              class="form-control font-semibold"
+              name="firstname"
+              id="firstname"
+              placeholder=""
+              required
+            />
+            <label for="firstname" class="text-md">Firstname</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              class="form-control font-semibold"
+              name="username"
+              id="username"
+              placeholder=""
+            />
+            <label for="username" class="text-md">Username</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input
+              type="password"
+              class="form-control font-semibold"
+              name="password1"
+              id="password1"
+              placeholder=""
+            />
+            <label for="password1" class="text-md">Password</label>
+          </div>
+        </div>
+
+        <!-- Second Side -->
+        <div class="col-md-6">
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              class="form-control font-semibold"
+              name="lastname"
+              id="lastname"
+              placeholder=""
+              required
+            />
+            <label for="lastname" class="text-md">Lastname</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input
+              type="email"
+              class="form-control font-semibold"
+              name="email"
+              id="email"
+              placeholder=""
+              required
+            />
+            <label for="email" class="text-md">Email</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input
+              type="password"
+              class="form-control font-semibold"
+              name="password2"
+              id="password2"
+              placeholder=""
+              required
+            />
+            <label for="password2" class="text-md">Repeat Password</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="w-fit mx-auto mb-2 mt-md-5 mt-4">
+      <button class="btn btn-myprimary font-medium" type="submit">
+        Register
+      </button>
+    </div>
+    {% if not request.user.is_authenticated %}
+    <small class="text-center text-xs font-semibold">
+      Already have an account?
+      <a
+        href="{% url 'login' %}"
+        class="text-decoration-none font-semibold sign-up-btn"
+        >Sign In</a
+      >
+    </small>
+    {% endif %}
+  </form>
+</div>
+
+{% endblock %}

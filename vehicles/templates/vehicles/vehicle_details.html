@@ -1,0 +1,438 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% block stylesheets %}
+   <link rel="stylesheet"
+         href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.5.0/css/lightgallery-bundle.min.css"/>
+   <link rel="stylesheet" href="{% static 'css/vehicle_details.css' %}">
+{% endblock stylesheets %}
+{% block title %}
+   Vehicles Details || Fast Cars
+{% endblock title %}
+{% block content %}
+   <section class="page-intro d-flex mx-auto flex-column bg-dark">
+      <div class="py-5 container text-white px-4" style="margin: auto">
+         <h1 class="font-medium">Vehicle Detail</h1>
+         <p class="text-base text-white opacity-75 col-md-6">More information on our vehicles.</p>
+      </div>
+   </section>
+   <div class="mt-4">{% include 'partials/messages.html' %}</div>
+
+   <div class="container-lg px-3 mb-5" style="margin-top: 150px">
+      <div class="row gx-4">
+         <div class="col-md-8">
+            <div class="my-shadow pb-3 border pt-1">
+               <div class="d-flex justify-content-between align-items-center mt-2">
+                  <small class="text-gray-500 px-3 ">Click on an image to view enlarged sized</small>
+                  {% if request.user.is_authenticated and request.user.is_staff %}
+                     <div class="px-3 text-end text-sm-center">
+                        <a href="{% url 'admin_panel:edit_vehicle' vehicle.slug %}"
+                           class="btn btn-sm btn-primary">Edit
+                        Vehicle</a>
+                        <a href="{% url 'admin_panel:delete_vehicle' vehicle.slug %}"
+                           class="btn btn-sm btn-danger mt-2 mt-md-0">Delete
+                        Vehicle</a>
+                     </div>
+                  {% endif %}
+               </div>
+               <!-- Vehice Image -->
+               <div class=" px-3 py-3">
+                  <div class="row gx-md-3 gx-2 "
+                       id="lightgallery"
+                       data-asonry='{"percentPosition": true }'>
+                     <a data-sub-html="
+                        <h4 class='text-xl font-medium'>Image 1</h4>
+                        " class="img-fluid my-2 col-6 col-sm-6 rounded-lg" href="{{ vehicle.car_photo.url }}">
+                        <img class="img-fluid rounded-lg details-image"
+                             src="{{ vehicle.car_photo.url }}"/>
+                     </a>
+                     {% if vehicle.car_photo_1 %}
+                        <a data-sub-html="
+                           <h4 class='text-xl font-medium'>Image 2</h4>
+                           " class="img-fluid my-2 col-6 col-sm-6 rounded-lg" href="{{ vehicle.car_photo_1.url }}">
+                           <img alt="Image 2"
+                                class="img-fluid rounded-lg details-image"
+                                src="{{ vehicle.car_photo_1.url }}"/>
+                        </a>
+                     {% else %}
+                        <div class="col-6 col-sm-6 bg-mysecondary rounded-lg  d-grid align-content-center text-center">
+                           <h6>No 2nd Image</h6>
+                        </div>
+                     {% endif %}
+                     {% if vehicle.car_photo_2 %}
+                        <a data-sub-html="
+                           <h4 class='text-xl font-medium'>Image 2</h4>
+                           " class="img-fluid my-2 col-6 col-sm-6 rounded-lg" href="{{ vehicle.car_photo_2.url }}">
+                           <img alt="Image 2"
+                                class="img-fluid rounded-lg details-image"
+                                src="{{ vehicle.car_photo_2.url }}"/>
+                        </a>
+                     {% else %}
+                        <div class="col-6 col-sm-6 mt-3 p-3 bg-mysecondary rounded-lg d-grid align-content-center text-center">
+                           <h6>No 3rd Image</h6>
+                        </div>
+                     {% endif %}
+                     {% if vehicle.car_photo_3 %}
+                        <a data-sub-html="
+                           <h4 class='text-xl font-medium'>Image 2</h4>
+                           " class="img-fluid my-2 col-6 col-sm-6 rounded-lg" href="{{ vehicle.car_photo_3.url }}">
+                           <img alt="Image 2"
+                                class="img-fluid rounded-lg details-image"
+                                src="{{ vehicle.car_photo_3.url }}"/>
+                        </a>
+                     {% else %}
+                        <div class="col-6 col-sm-6 mt-3 p-3 bg-mysecondary rounded-lg d-grid align-content-center text-center">
+                           <h6>No 4th Image</h6>
+                        </div>
+                     {% endif %}
+                  </div>
+               </div>
+               <div class="p-3">
+                  <div class="d-flex justify-content-between">
+                     <p class="text-gray-500 p-0 m-0 pb-1 text-md">{{ vehicle.brand }}</p>
+                     <p class="text-gray-500 p-0 m-0 pb-1 text-sm">Posted {{ vehicle.created_date | naturalday }}</p>
+                  </div>
+                  <div class="d-flex align-items-end justify-content-between">
+                     <h2 class="font-medium p-0 m-0">{{ vehicle.vehicle_name }}</h2>
+                     <p class="text-gray-500 p-0 m-0 pb-1 text-md">
+                        <span class="text-lg text-myprimary font-bold">${{ vehicle.price | intcomma }}</span>
+                        / day
+                     </p>
+                  </div>
+                  <div class="my-2 border-top border-bottom mt-4 car-info">
+                     <div class="row row-cols-2 row-cols-sm-3 row-cols-lg-4  g-1 g-sm-2 gy-sm-4 py-1">
+                        <!-- No of Seats -->
+                        <div class="col">
+                           <div class="py-2 rounded text-center">
+                              <img src="{% static 'img/icons/seat.png' %}"
+                                   alt="Features Icon"
+                                   class="pointer-events-none"
+                                   style="width: 50px"/>
+                              <small class="font-bold text-sm text-gray-500 p-0 m-0 d-block mt-2">Seats</small>
+                              <p class="p-0 m-0 font-medium font-jost">{{ vehicle.seats }} Adults</p>
+                           </div>
+                        </div>
+                        <!-- Type of transimssion -->
+                        <div class="col">
+                           <div class="py-2 rounded text-center">
+                              <img src="{% static 'img/icons/pistons.png' %}"
+                                   alt="Features Icon"
+                                   class="pointer-events-none"
+                                   style="width: 50px"/>
+                              <small class="font-bold text-sm text-gray-500 p-0 m-0 d-block mt-2">Transmission</small>
+                              <p class="p-0 m-0 font-medium font-jost">{{ vehicle.transmission }}</p>
+                           </div>
+                        </div>
+                        <!-- Mileage -->
+                        <div class="col">
+                           <div class="py-2 rounded text-center">
+                              <img src="{% static 'img/icons/speedometer.png' %}"
+                                   alt="Features Icon"
+                                   class="pointer-events-none"
+                                   style="width: 50px"/>
+                              <small class="font-bold text-sm text-gray-500 p-0 m-0 d-block mt-2">Mileage</small>
+                              <p class="p-0 m-0 font-medium font-jost text-uppercase">{{ vehicle.mileage | intcomma }} mpg</p>
+                           </div>
+                        </div>
+                        <!-- Fuel Type -->
+                        <div class="col">
+                           <div class="py-2 rounded text-center">
+                              <img src="{% static 'img/icons/fuel.png' %}"
+                                   alt="Features Icon"
+                                   class="pointer-events-none"
+                                   style="width: 50px"/>
+                              <small class="font-bold text-sm text-gray-500 p-0 m-0 d-block mt-2">Fuel</small>
+                              <p class="p-0 m-0 font-medium font-jost">{{ vehicle.fuel_type }}</p>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="description mt-5">
+                     <h5>Description</h5>
+                     <p class="text-justify p-0 m-0 ">{{ vehicle.description | safe }}</p>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="col-sm-9 mx-auto col-md my-5 my-md-0">
+            <!-- Specifications -->
+            <div class="p-3 my-shadow border pt-4">
+               <!-- Booking Button -->
+               {% if request.user.is_authenticated %}
+                  <button type="button"
+                          class="btn d-grid w-75 mx-auto btn-myprimary font-medium my-3 my-md-0 d-inline-block"
+                          data-bs-toggle="modal"
+                          data-bs-target="#bookingModal">
+                     Request for Booking
+                  </button>
+               {% else %}
+                  <a href="{% url 'login' %}"
+                     class="btn d-grid w-75 mx-auto bg-mysecondary-outline font-medium my-3 my-md-0">
+                     Book Now
+                  </a>
+               {% endif %}
+               <!-- Vehicle Specifications -->
+               <div class="mt-4 pt-3">
+                  <div class="border-bottom border-2 border-secondary">
+                     <h5 class="text-myprimary">
+                        Specifications
+                     </h5>
+                  </div>
+                  <!-- Vehicle Brand -->
+                  <p class="text-md d-flex justify-content-between border-bottom my-1 m-0 pt-3 pb-1 text-gray-500">
+                     <span class="font-bold text-uppercase text-sm text-black ">Brand:</span>
+                     {{ vehicle.brand }}
+                  </p>
+                  <!-- Made year -->
+                  <p class="text-md d-flex justify-content-between border-bottom my-1 m-0 pt-2 pb-1 text-gray-500">
+                     <span class="font-bold text-uppercase text-sm  text-black">Made year:</span>
+                     {{ vehicle.year }}
+                  </p>
+                  <!-- Color -->
+                  <p class="text-md d-flex justify-content-between border-bottom my-1 m-0 pt-2 pb-1 text-gray-500">
+                     <span class="font-bold text-uppercase text-sm  text-black">Color:</span>
+                     {{ vehicle.color }}
+                  </p>
+                  <!-- Transmission -->
+                  <p class="text-md d-flex justify-content-between border-bottom my-1 m-0 pt-2 pb-1 text-gray-500">
+                     <span class="font-bold text-uppercase text-sm  text-black">Transmission:</span>
+                     {{ vehicle.transmission }}
+                  </p>
+                  <!-- Seats -->
+                  <p class="text-md d-flex justify-content-between border-bottom my-1 m-0 pt-2 pb-1 text-gray-500">
+                     <span class="font-bold text-uppercase text-sm  text-black">Seats:</span>
+                     {{ vehicle.seats }}
+                  </p>
+                  <!-- Doors -->
+                  <p class="text-md d-flex justify-content-between border-bottom my-1 m-0 pt-2 pb-1 text-gray-500">
+                     <span class="font-bold text-uppercase text-sm  text-black">Doors:</span>
+                     {{ vehicle.doors }}
+                  </p>
+                  <!-- Mileage -->
+                  <p class="text-md d-flex justify-content-between border-bottom my-1 m-0 pt-2 pb-1 text-gray-500">
+                     <span class="font-bold text-uppercase text-sm  text-black">Drive:</span>
+                     {{ vehicle.drive }}
+                  </p>
+                  <!-- Horse Power -->
+                  <p class="text-md d-flex justify-content-between border-bottom my-1 m-0 pt-2 pb-1 text-gray-500">
+                     <span class="font-bold text-uppercase text-sm  text-black">Horse Power:</span>
+                     {{ vehicle.horse_power }}hp
+                  </p>
+               </div>
+            </div>
+            <!-- Features -->
+            <div class="p-3 my-shadow border mt-4 bg-mysecondary">
+               <div class="mt-">
+                  <div class="border-bottom pt-3 border-2 border-secondary">
+                     <h5 class="text-myprimary">
+                        Features
+                     </h5>
+                  </div>
+                  <!-- Features -->
+                  {% for feature in vehicle.features %}
+                     <p class="text-md d-flex justify-content-between border-bottom my-1 m-0 pt-3 pb-1 text-gray-500">
+                        {{ feature }}
+                     </p>
+                  {% endfor %}
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <!-- Testimonials -->
+   <div class="container mb-5">
+      <div class="row gx-3">
+         <div class="col-md-7">
+            <div class="p-3 my-shadow bg-m">
+               <h4 class="p-0 m-0">
+                  Testimonials
+               </h4>
+               <p class="text-gray-500 p-0 m-0 text-md">
+                  What our clients say
+               </p>
+               <div class="mt-4">
+                  {% if vehicle.testimonials.all %}
+                     {% for testimonial in vehicle.testimonials.all %}
+                        <div class="row gx-2 border border-2 p-2 rounded-lg mb-2"
+                             style="border-color: var(--secondary-color) !important;">
+                           <div class="col">
+                              <div class="user-avatar pointer-events-none me-md-auto mx-auto mx-md-0 ">
+                                 <img src="{{ testimonial.user.profile_image.url }}"
+                                      alt="User Avatar"
+                                      class="img-fluid rounded-full"
+                                      style="width: 60px;
+                                             height: 60px;
+                                             object-fit: cover;">
+                              </div>
+                           </div>
+                           <div class="col-sm-10 col-12">
+                              <div class="p-2 text-center text-sm-start">
+                                 <h6 class="p-0 m-0">
+                                    {{ testimonial.user.first_name }} {{ testimonial.user.last_name }}
+                                 </h6>
+                                 <small class="text-gray-500 text-xs font-semibold">{{ testimonial.created_date |naturaltime }}</small>
+                                 <p class="text-gray-500 text-md pt-2 p-0 m-0">
+                                    {{ testimonial.description }}
+                                 </p>
+                              </div>
+                           </div>
+                        </div>
+                     {% endfor %}
+                  {% else %}
+                     <div class="w-fit mx-auto text-center mt-5">
+                        <i class='bx bxs-info-circle text-3xl mb-2 text-myprimary'></i>
+                        <h5 class="">
+                           No Testimonials yet
+                        </h5>
+                     </div>
+                  {% endif %}
+               </div>
+            </div>
+         </div>
+         <div class="col my-5 my-md-0">
+            {% if request.user.is_authenticated %}
+               <div class="p-3 my-shadow border bg-white">
+                  <h5 class="">
+                     Post Testimonial
+                  </h5>
+                  <form class="text-center mt-4" method="POST">
+                     {% csrf_token %}
+                     <div class="form-floating mb-4">
+                        {{ testimonial_form.description }}
+                        <label for="description" class="font-medium">
+                           Testimonial
+                        </label>
+                     </div>
+                     <div class="w-fit ms-auto mb-1">
+                        <button class="btn btn-myprimary btn-sm font-medium" type="submit">
+                           Post
+                        </button>
+                     </div>
+                  </form>
+               </div>
+            {% else %}
+               <div class="p-3 my-shadow border bg-white text-center">
+                  <h6 class="mb-4">
+                     Log in to post testimonial
+                  </h6>
+                  <a href="{% url 'login' %}"
+                     class="btn d-grid w-fit btn-sm mx-auto bg-mysecondary-outline font-medium mt-5 my-md-0">
+                     Login
+                  </a>
+               </div>
+            {% endif %}
+         </div>
+      </div>
+   </div>
+   <!-- Booking Modal -->
+   <div class="modal fade"
+        id="bookingModal"
+        tabindex="-1"
+        aria-labelledby="bookingModalLabel"
+        aria-hidden="true">
+      <div class="modal-dialog ">
+         <div class="modal-content">
+            <div class="modal-header p-2 px-3 border-0 ">
+               <h5 class="modal-title font-medium" id="bookingModalLabel">
+                  Book Vehicle
+               </h5>
+               <button type="button"
+                       class="btn-close btn btn-sm"
+                       data-bs-dismiss="modal"
+                       aria-label="Close">
+               </button>
+            </div>
+            <div class="modal-body">
+               <form class="" method="POST">
+                  {% csrf_token %}
+                  <!-- Vehicle Name -->
+                  <div class="form-floating mb-2">
+                     <input type="text"
+                            class="form-control text-md font-medium bg-light"
+                            id="car_title"
+                            placeholder=""
+                            value="{{ vehicle.vehicle_name }}"
+                            readonly>
+                     <label for="car_title" class="text-md text-black font-medium">
+                        Vehicle
+                     </label>
+                  </div>
+                  <div class="py-2 mb-2">
+                     <p class="p-0 m-0 text-md text-gray-500">
+                        From:
+                     </p>
+                  </div>
+                  <!-- City and State -->
+                  <div class="overflow-hidden mb-2">
+                     <div class="row gx-2">
+                        <!-- City -->
+                        <div class="col-md my-1 my-md-0">
+                           <div class="form-floating ">
+                              {{ booking_form.city }}
+                              <label for="subject" class="text-md text-black font-medium">
+                                 City
+                              </label>
+                           </div>
+                        </div>
+                        <!-- State -->
+                        <div class="col-md my-1 my-md-0">
+                           <div class="form-floating ">
+                              {{ booking_form.state }}
+                              <label for="subject" class="text-md text-black font-medium">
+                                 State
+                              </label>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <!-- Pick up and Drop off dates -->
+                  <div class="overflow-hidden mb-2">
+                     <div class="row gx-2">
+                        <!-- City -->
+                        <div class="col-md-6 my-1 my-md-0">
+                           <div class="form-floating ">
+                              {{ booking_form.pick_up_date }}
+                              <label for="subject" class="text-md text-black font-medium">
+                                 Pick Up Date
+                              </label>
+                           </div>
+                        </div>                        
+                        <!-- State -->
+                        <div class="col-md-6 my-1 my-md-0">
+                           <div class="form-floating ">
+                              {{ booking_form.drop_off_date }}
+                              <label for="subject" class="text-md text-black font-medium">
+                                 Drop Off Date
+                              </label>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="w-fit ms-auto mt-4">
+                     <button type="submit" class="btn btn-myprimary font-medium btn-sm">
+                        Book Vehicle
+                     </button>
+                  </div>
+               </form>
+            </div>
+         </div>
+      </div>
+   </div>
+{% endblock %}
+{% block scripts %}
+   <script src="{% static 'js/masonry.pkgd.min.js' %}" async></script>
+   <script src="{% static 'js/lightgallery/lightgallery.umd.min.js' %}"></script>
+   <script src="{% static 'js/lightgallery/lg-thumbnail.umd.min.js' %}"></script>
+   <script src="{% static 'js/lightgallery/lg-zoom.umd.min.js' %}"></script>
+   <script src="{% static 'js/lightgallery/lg-autoplay.umd.min.js' %}"></script>
+   <script>
+   lightGallery(document.getElementById('lightgallery'), {
+      plugins: [lgZoom, lgThumbnail, lgAutoplay],
+      licenseKey: 'your_license_key',
+      animateThumb: false,
+      zoomFromOrigin: false,
+      allowMediaOverlap: true,
+      toggleThumb: true      
+   });
+   </script>
+{% endblock scripts %}

@@ -1,0 +1,144 @@
+{% load static %}
+{% url 'home' as home %}
+{% url 'about' as about %}
+{% url 'vehicles' as vehicles %}
+{% url 'vehicle_details' as vehicle_details %}
+{% url 'services' as services %}
+{% url 'contact' as contact %}
+{% url 'login' as login %}
+{% url 'register' as register %}
+{% url 'password_reset' as password_reset %}
+
+
+{% if request.user.is_authenticated %}
+<nav
+   class="navbar navbar-expand-md navbar-dark mb-auto py-1 fixed-top top-0  {% if request.path == login or request.path == register %} bg-nav-constant {% endif %}"
+   id="navbar" aria-label="Fourth navbar example">
+   <div class="container">
+      <a class="navbar-brand font-jost text-2xl font-medium d-flex align-items-center" href="/">      
+         <i class='bx bxs-car me-2'></i>
+         <span>Fast Cars</span>
+      </a>
+      <button class="navbar-toggler btn border-0" type="button" data-bs-toggle="collapse" data-bs-target="#appNavbar"
+         aria-controls="appNavbar" aria-expanded="false" aria-label="Toggle navigation">
+         <i class="bx bi-justify-right text-3xl text-white nav-icon"></i>         
+      </button>
+
+      <div class="collapse navbar-collapse text-center text-md-start" id="appNavbar">
+         <ul class="navbar-nav mx-auto font-medium text-md">
+            <li class="nav-item">
+               <a class="nav-link {% if request.path == home %} text-white {% endif %}" href="{% url 'home' %}">Home</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link {% if request.path == about %} text-white {% endif %}"
+                  href="{% url 'about' %}">About</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link {% if request.path == vehicles or request.path == vehicle_details %} text-white {% endif %}" href="{% url 'vehicles' %}">Vehicles</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link {% if request.path == services %} text-white {% endif %}"
+                  href="{% url 'services' %}">Services</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link {% if request.path == contact %} text-white {% endif %}"
+                  href="{% url 'contact' %}">Contact</a>
+            </li>
+         </ul>
+         <li class="nav-item dropdown m-0 list-unstyled">
+            <button class="dropdown-toggle btn text-white" href="" id="navbarDarkDropdownMenuLink" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">
+               <img 
+                  src=" {% if request.user.profile_image %} {{request.user.profile_image.url}} {% else %} {% static 'img/default-image.png' %} {% endif %} " 
+                  alt="User Avatar" 
+                  class="img-fluid rounded-full" 
+                  style="width: 40px;height: 40px;object-fit: cover;">
+            </button>
+            <ul class="dropdown-menu dropdown-menu-light  dropdown-menu-end dropdown-menu-lg-end"
+               aria-labelledby="navbarDarkDropdownMenuLink">
+               {% if request.user.is_staff %}
+               <li>
+                  <a href="{% url 'admin_panel:dashboard' %}" class="dropdown-item font-semibold d-flex align-items-center">
+                     <i class="bi bi-grid-fill text-lg"></i>&nbsp;
+                     Dashboard
+                  </a>
+               </li>
+               {% else %}
+               <li>
+                  <a href="{% url 'users:dashboard' %}" class="dropdown-item font-semibold d-flex align-items-center">
+                     <i class="bi bi-grid-fill text-lg"></i>&nbsp;
+                     Dashboard
+                  </a>
+               </li>
+               {% endif %}
+
+               {% if not request.user.is_staff %}
+               <li>
+                  <a href="{% url 'users:my_bookings' %}" class="dropdown-item font-semibold d-flex align-items-center">
+                     <i class="bi bi-journal-album text-lg"></i>&nbsp;
+                     My Bookings
+                  </a>
+               </li>
+               {% endif %}
+
+               <li>
+                  <hr class="dropdown-divider">
+               </li>
+               <li class="p-0">
+                  <a href="{% url 'logout' %}" class="dropdown-item px-3 py-0 text-danger font-semibold d-flex align-items-center">
+                     <i class="bi bi-box-arrow-in-right text-xl"></i>
+                     &nbsp;
+                     Logout
+                  </a>
+               </li>
+            </ul>
+         </li>
+      </div>
+   </div>
+</nav> 
+{% else %} 
+
+{% comment %} Default Navbar {% endcomment %}
+<nav
+   class="navbar navbar-expand-md navbar-dark mb-auto fixed-top top-0"
+   id="navbar" aria-label="Fourth navbar example">
+   <div class="container">
+      <a class="navbar-brand font-jost text-2xl font-medium" href="/">Fast Cars</a>
+      <button class="navbar-toggler btn border-0" type="button" data-bs-toggle="collapse" data-bs-target="#appNavbar"
+         aria-controls="appNavbar" aria-expanded="false" aria-label="Toggle navigation">
+         <i class="bx bi-justify-right text-3xl text-white nav-icon"></i>
+      </button>
+
+      <div class="collapse navbar-collapse text-center text-md-start" id="appNavbar">
+         <ul class="navbar-nav mx-auto font-medium text-md">
+            <li class="nav-item">
+               <a class="nav-link {% if request.path == home %} text-white {% endif %}" href="{% url 'home' %}">Home</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link {% if request.path == about %} text-white {% endif %}"
+                  href="{% url 'about' %}">About</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link {% if request.path == vehicles or request.path == vehicle_details %} text-white {% endif %}" href="{% url 'vehicles' %}">Vehicles</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link {% if request.path == services %} text-white {% endif %}"
+                  href="{% url 'services' %}">Services</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link {% if request.path == contact %} text-white {% endif %}"
+                  href="{% url 'contact' %}">Contact</a>
+            </li>
+         </ul>
+         <a href="{% url 'login' %}" class="btn btn-mysecondary font-medium my-3 my-md-0">
+            Sign In
+         </a>
+         <a href="{% url 'register' %}" class="btn btn-myprimary mx-md-2 font-medium my-3 my-md-0">
+            Sign Up
+         </a>
+      </div>
+   </div>
+</nav>
+
+
+{% endif %}

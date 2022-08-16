@@ -1,0 +1,71 @@
+{% extends 'admin_panel_base.html' %}
+{% load static %}
+{% load humanize %}
+{% block stylesheets %}
+   <style>
+   .user-image {
+      width: 55px !important;
+      height: 55px !important;
+   }
+   </style>
+{% endblock stylesheets %}
+{% block title %}
+   Testimonials || Fast Cars
+{% endblock title %}
+{% block content %}
+   <h5 class="text-center text-myprimary mt-4 mb-2">Testimonials</h5>
+   {% include 'partials/messages.html' %}
+   <div class="container my-4">
+      <div class="row gx-4">
+         <div class="col-md-12 col-lg-10 mx-auto">
+            <div class="bg- mx-auto p- mt-4 ">
+               <div class="row row-cols-1 row-cols-md-3 g-3 g-lg-3 ">
+                  {% if testimonials %}
+                     {% for testimonial in testimonials %}
+                        <div class="col">
+                           <div class="p-2 pb bg-white rounded-sm my-shadow">
+                              <div class="d-flex align-items-center justify-content-between px-md-2">
+                                 <div class="user-image w-fit mt-2">
+                                    <img src="{% if testimonial.user.profile_image %} {{testimonial.user.profile_image.url}} {% else %} {% static 'img/default-image.png' %} {% endif %}"
+                                         alt="User image"
+                                         class="img-fluid user-image rounded-full"
+                                         style="object-fit: cover;">
+                                 </div>
+                                 <div class="text-end">
+                                    <h6 class="m-0 p-0 text-lg">{{ testimonial.user.first_name }} {{ testimonial.user.last_name }}</h6>
+                                    <p class="m-0 p-0 text-xs text-gray-500 font-semibold">{{ testimonial.created_date | naturaltime }}</p>
+                                 </div>
+                              </div>
+                              <div class="px-md-2 mt-3">
+                                 <p class="m-0 p-0 font-bold">
+                                    Vehicle:
+                                    <a href="{% url 'vehicle_details' testimonial.vehicle.slug %}"
+                                       class="text-decoration-none text-myprimary font-medium text-md">
+                                       {{ testimonial.vehicle.vehicle_name | truncatechars:20 }}
+                                    </a>
+                                 </p>
+                              </div>
+                              <div class="px-md-2 mt-1">
+                                 <p class="text-md text-dark">{{ testimonial.description }}</p>
+                              </div>
+                              <div class="w-fit ms-auto">
+                                 <a href="{% url 'admin_panel:testimonial_detail' testimonial.id %}"
+                                    class="btn btn-sm ">
+                                    <i class='bx bx-link-external font-medium text-lg text-primary'></i>
+                                 </a>
+                              </div>
+                           </div>
+                        </div>
+                     {% endfor %}
+                  {% else %}
+                     <div class="w-fit mx-auto text-center bg-white px-5 p-3 rounded-md my-shadow">
+                        <i class='bx bxs-info-circle text-3xl mb-2 text-myprimary'></i>
+                        <h5>No Testimonials</h5>
+                     </div>
+                  {% endif %}
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+{% endblock %}

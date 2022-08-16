@@ -1,0 +1,220 @@
+{% extends 'admin_panel_base.html' %}
+{% load static %}
+{% load humanize %}
+{% load crispy_forms_tags %}
+{% block stylesheets %} {% endblock stylesheets %}
+{% block title %}Edit Vehicle || Fast Cars {% endblock title %}
+{% block content %}
+
+<h5 class="text-center text-myprimary mt-4">Edit Vehicle</h5>
+
+{% include 'partials/messages.html' %}
+
+<div class="container-fluid px-md-5 mt-3 mb-5">
+
+  <form class="row gx-4" url="{% url 'admin_panel:add_vehicle' %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="col-md-6 col-sm-10 col-12 mx-auto">
+      <div class="bg-white mx-auto p-3 mt-4 rounded-md my-shadow">
+        <!-- Vehicle Name -->
+        <div class="form-floating mb-3">
+          {{add_vehicle_form.vehicle_name}}
+          <label for="" class="form-label text-black">Vehicle Name</label>
+        </div>
+
+        <!-- Description -->
+        <div class="form-floating mb-3">
+          {{add_vehicle_form.description | safe}}
+          <label for="" class="form-label text-black">Vehicle Description</label>
+        </div>
+
+        <!-- Vin No -->
+        <div class="form-floating mb-3">
+          {{add_vehicle_form.vin_no}}
+          <label for="" class="form-label text-black"> Vin No.</label>
+        </div>
+
+        <!-- Features -->
+        <div class="border p-3 mb-3 rounded">
+          <label for="" class="form-label text-black">Features</label>
+          {{add_vehicle_form.features}}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-sm-10 col-12 mx-auto">
+      <div class="bg-white mx-auto p-3 mt-4 rounded-md my-shadow">
+        <div class="row row-cols-1 row-cols-lg-2 g-2 g-lg-3 mb-3">
+          <!-- Vehicle Images -->
+          <div class="col">
+            <!-- Image 1 -->
+            <div class="mb-3 mt-0">
+              <label for="formFile" class="form-label text-xs text-gray-500 d-block m-0 p-0">Vehicle Image 1 <span
+                  class="text-danger">*</span></label>
+               <small class="text-xs">Previously
+                   <a href="{{vehicle.car_photo.url}}" class="text-decoration-none font-semibold">
+                     Image 1
+                  </a>
+                  </small>
+              {{add_vehicle_form.car_photo}}
+            </div>
+
+            <!-- Image 2 -->
+            <div class="mb-3 mt-0">
+              <label for="formFile" class="form-label text-xs text-gray-500 d-block m-0 p-0">Vehicle Image 2</label>
+
+              {% if vehicle.car_photo_1 %}
+              <small class="text-xs">Previously
+                <a href="{{vehicle.car_photo_1.url}}" class="text-decoration-none font-semibold">
+                  Image 2
+               </a>
+               </small>
+               {% endif %}
+
+              {{add_vehicle_form.car_photo_1}}
+            </div>
+
+            <!-- Image 3 -->
+            <div class="mb-3 mt-0">
+              <label for="formFile" class="form-label text-xs text-gray-500 d-block m-0 p-0">Vehicle Image 3</label>
+
+              {% if vehicle.car_photo_2 %}
+              <small class="text-xs">Previously
+                <a href="{{vehicle.car_photo_2.url}}" class="text-decoration-none font-semibold">
+                  Image 3
+               </a>
+               </small>
+               {% endif %}
+
+              {{add_vehicle_form.car_photo_2}}
+            </div>
+
+            <!-- Image 4 -->
+            <div class="mb-3 mt-0">
+              <label for="formFile" class="form-label text-xs text-gray-500 d-block m-0 p-0">Vehicle Image 4</label>
+
+              {% if vehicle.car_photo_3 %}
+              <small class="text-xs">Previously
+                <a href="{{vehicle.car_photo_3.url}}" class="text-decoration-none font-semibold">
+                  Image 4
+               </a>
+               </small>
+               {% endif %}
+
+              {{add_vehicle_form.car_photo_3}}
+            </div>
+          </div>
+
+          <div class="col mt-lg-5">
+            <!-- Brand -->
+            <div class="form-floating mb-2">
+              {{add_vehicle_form.brand}}
+              <label for="" class="form-label text-black">Vehicle Brand</label>
+            </div>
+
+            <!-- Price -->
+            <div class="form-floating mb-2">
+              {{add_vehicle_form.price}}
+              <label for="" class="form-label text-black">Price&nbsp;<span
+                  class="text-myprimary font-bold">$</span></label>
+            </div>
+
+            <!-- Color -->
+            <div class="form-floating mb-2">
+              {{add_vehicle_form.color}}
+              <label for="" class="form-label text-black">Vehicle Color</label>
+            </div>
+
+            <!-- Year -->
+            <div class="form-floating mb-2">
+              {{add_vehicle_form.year}}
+              <label for="" class="form-label text-black">Year</label>
+            </div>
+          </div>
+
+          <!-- Fuel Type -->
+          <div class="col">
+            <div class="form-floating mb-2">
+              {{add_vehicle_form.fuel_type}}
+              <label for="" class="form-label text-black">Fuel Type</label>
+            </div>
+          </div>
+
+          <!-- Doors -->
+          <div class="col">
+            <div class="form-floating mb-2">
+              {{add_vehicle_form.doors}}
+              <label for="" class="form-label text-black">Doors</label>
+            </div>
+          </div>
+
+          <!-- Seats -->
+          <div class="col">
+            <div class="form-floating mb-2">
+              {{add_vehicle_form.seats}}
+              <label for="" class="form-label text-black">Seats</label>
+            </div>
+          </div>
+
+          <!-- Drive -->
+          <div class="col">
+            <div class="form-floating mb-2">
+              {{add_vehicle_form.drive}}
+              <label for="" class="form-label text-black">Drive</label>
+            </div>
+          </div>
+
+          <!-- Transmission -->
+          <div class="col">
+            <div class="form-floating mb-2">
+              {{add_vehicle_form.transmission}}
+              <label for="" class="form-label text-black">Transmission</label>
+            </div>
+          </div>
+
+          <!-- Horse Power -->
+          <div class="col">
+            <div class="form-floating mb-2">
+              {{add_vehicle_form.horse_power}}
+              <label for="" class="form-label text-black">Horse Power&nbsp;<span
+                  class="text-myprimary font-bold">watts</span></label>
+            </div>
+          </div>
+
+          <!-- Mileage -->
+          <div class="col">
+            <div class="form-floating mb-2">
+              {{add_vehicle_form.mileage}}
+              <label for="" class="form-label text-black">Mileage&nbsp;<span
+                  class="text-myprimary font-bold">mpg</span></label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="w-fit ms-auto mt-4">
+        <button type="submit" class="btn btn-success btn-sm font-medium">
+          Save Changes
+        </button>
+      </div>
+    </div>
+  </form>
+
+</div>
+
+{% endblock %}
+
+
+<!-- <form
+    method="POST"
+    class="col-6 my-shadow rounded-md p-3 mx-auto bg-white"
+    action="{% url 'admin_panel:add_vehicle' %}"
+    enctype="multipart/form-data"
+  >
+    {% csrf_token %} {{add_vehicle_form |crispy}}
+
+    <button class="btn btn-success btn-sm mt-5" type="submit">
+      Add Vehicle
+    </button>
+  </form> -->

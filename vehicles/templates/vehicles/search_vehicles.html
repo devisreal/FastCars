@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% block stylesheets %}
+{% endblock stylesheets %}
+{% block title %}
+   Search || Fast Cars
+{% endblock title %}
+{% block content %}
+   <section class="page-intro d-flex mx-auto flex-column bg-dark ">
+      <div class="py-5 container text-white px-4" style="margin: auto;">
+         <h1 class="font-medium">Search</h1>
+         <p class="text-base text-white opacity-75 col-md-6">Check your results below</p>
+      </div>
+   </section>
+   <div class="mt-4">{% include 'partials/messages.html' %}</div>
+   <div class="container px-4 mb-5" style="margin-top: 150px;">
+      {% if paginated_vehicles %}
+         <div class="my-5">
+            <p class="text-sm">
+               <span class="text-myprimary font-semibold">Note:</span> You need to be logged in to book vehicles.
+            </p>
+         </div>
+      {% endif %}
+      <div class="row gx-4 gy-md-5 gy-4">
+         {% if paginated_vehicles %}
+            {% for vehicle in paginated_vehicles %}
+               <div class="col-lg-4 col-md-6 col-12 col-sm-10 mx-auto mx-md-0">
+                  <div class="border my-shadow pb-2 car-card rounded-lg">
+                     <img src="{{ vehicle.car_photo.url }}"
+                          alt="Car Image"
+                          class="img-fluid pointer-events-none"
+                          style="height: 40vh !important;
+                                 width: 100% !important;
+                                 object-fit: cover;">
+                     <div class="p-4">
+                        <h4 class="">{{ vehicle.vehicle_name }}</h4>
+                        <div class="d-flex justify-content-between">
+                           <p class="text-gray-500 font-semibold text-md">{{ vehicle.brand }}</p>
+                           <p class="text-gray-500 font-semibold text-md">
+                              <span class="text-myprimary font-extrabold">$ {{ vehicle.price | intcomma }}</span> /day
+                           </p>
+                        </div>
+                        <div class="w-fit ms-auto mt-3">
+                           <a href="{% url 'vehicle_details' vehicle.slug %}"
+                              class="btn btn-sm bg-mysecondary-outline font-medium my-3 my-md-0">
+                              Vehicle Details
+                           </a>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            {% endfor %}
+         {% else %}
+            <div class=" text-center bg-white px-5 p-3 rounded-md my-shadow">
+               <i class='bx bxs-info-circle text-3xl mb-3 text-myprimary'></i>
+               <h5>No Item match your search</h5>
+            </div>
+         {% endif %}
+      </div>
+   </div>
+
+{% endblock %}
