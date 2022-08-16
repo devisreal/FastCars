@@ -165,9 +165,9 @@ MEDIA_ROOT = (BASE_DIR / 'media')
 
 
 cloudinary.config( 
-  cloud_name = config('CLOUDINARY_CLOUD_NAME'), 
-  api_key = config('CLOUDINARY_API_KEY'), 
-  api_secret = config('CLOUDINARY_API_SECRET')
+  cloud_name = 'ds4h5p2np', 
+  api_key = '893118262317724', 
+  api_secret = 'QsjFzFDkXolPDAYmCcpPBGbBhJE'
 )
 
 MESSAGE_TAGS = {
