@@ -21,7 +21,7 @@
          <div class="col-md-11 col-lg-6 mx-auto">
             <div class="mx-auto mt-4 bg-white px-5 p-3 rounded-md my-shadow">
                <div class="user-image w-fit mx-auto">
-                  <img src="{{ testimonial.user.profile_image.url }}"
+                  <img src="{% if testimonial.user.profile_image %} {{testimonial.user.profile_image.url}} {% else %} {% static 'img/default-image.png' %} {% endif %}"
                        alt="User image"
                        class="img-fluid user-image rounded-full">
                </div>
