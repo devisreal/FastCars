@@ -122,7 +122,7 @@
       {% for testimonial in active_testimonials %}
       <div class="swiper-slide  bg-white rounded-md p-3 py-4 mt-4 mb-5 text-center grid align-content-center">
         <div class="col-3 rounded-full mx-auto">          
-          <img src="{{testimonial.user.profile_image.url}}" alt="User Avatar" class="img-fluid rounded-full" style="width: 65px;height: 65px;object-fit: cover;">
+          <img src="{% if testimonial.user.profile_image %} {{testimonial.user.profile_image.url}} {% else %} {% static 'img/default-image.png' %} {% endif %}" alt="User Avatar" class="img-fluid rounded-full" style="width: 65px;height: 65px;object-fit: cover;">
         </div>
         <p class="text-gray-500 text-md mt-3">
           <span class="text-xl text-myprimary">&ldquo;</span>
