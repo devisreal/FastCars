@@ -195,5 +195,5 @@ EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://pumphouse.up.railway.app'
+    'https://israel-fastcars.up.railway.app/'
 ]
